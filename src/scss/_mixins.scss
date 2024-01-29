@@ -1,0 +1,82 @@
+// display property
+@mixin flex {
+    display: flex;
+}
+@mixin justify-center {
+    justify-content: center;
+}
+@mixin justify-between {
+    justify-content: space-between;
+}
+@mixin justify-around {
+    justify-content: space-around;
+}
+@mixin justify-evenly {
+    justify-content: space-evenly;
+}
+@mixin align-center {
+    align-items: center;
+}
+@mixin align-start {
+    align-items: flex-start;
+}
+@mixin align-end {
+    align-items: flex-end;
+}
+@mixin block {
+    display: block;
+}
+@mixin inline-block {
+    display: inline-block;
+}
+@mixin inline {
+    display: inline;
+}
+@mixin none {
+    display: none;
+}
+
+// font styles
+@mixin f-w-l {
+    font-weight: 300;
+}
+@mixin f-w-n {
+    font-weight: 400;
+}
+@mixin f-w-b {
+    font-weight: 600;
+}
+
+// margins
+@mixin m-reset {
+    margin: 0;
+}
+@mixin m-t($value) {
+    margin-top: $value;
+}
+@mixin m-r($value) {
+    margin-right: $value;
+}
+@mixin m-b($value) {
+    margin-bottom: $value;
+}
+@mixin m-l($value) {
+    margin-left: $value;
+}
+
+// paddings
+@mixin p-reset {
+    padding: 0;
+}
+@mixin p-t($value) {
+    padding-top: $value;
+}
+@mixin p-r($value) {
+    padding-right: $value;
+}
+@mixin p-b($value) {
+    padding-bottom: $value;
+}
+@mixin p-l($value) {
+    padding-left: $value;
+}

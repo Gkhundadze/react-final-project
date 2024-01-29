@@ -1,0 +1,7 @@
+@import 'scss/variables';
+@import 'scss/mixins';
+
+h1 {
+  color: $color;
+  @include m-t(100px)
+}
