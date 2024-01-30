@@ -1,3 +1,6 @@
+
+
+
 // display property
 @mixin flex {
     display: flex;
@@ -23,6 +26,10 @@
 @mixin align-end {
     align-items: flex-end;
 }
+@mixin gap($value) {
+    gap: $value;
+}
+
 @mixin block {
     display: block;
 }
@@ -67,6 +74,9 @@
 // paddings
 @mixin p-reset {
     padding: 0;
+}
+@mixin p ($value) {
+    padding: $value;
 }
 @mixin p-t($value) {
     padding-top: $value;

@@ -1,7 +1,58 @@
 @import 'scss/variables';
 @import 'scss/mixins';
 
-h1 {
-  color: $color;
-  @include m-t(100px)
+
+
+*,
+*::before,
+*::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-size: 16px;
+}
+ul {
+  list-style: none;
+}
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+
+
+// temporary classes
+
+.container {
+  max-width: 1440px;
+  width: 90%;
+  margin: 0 auto;
+}
+
+// header
+header {
+  nav {
+    @include flex;
+    @include justify-between;
+    @include align-center;
+    @include p($offset-10);
+    .logo {
+      a {
+
+        img {
+          width: $offset-10 * 3;
+        }
+      }
+    }
+    ul {
+      @include flex;
+      @include gap($offset-10);
+      li {
+
+        a {
+          font-size: $offset-10 * 2;
+        }
+      }
+    }
+  }
 }
