@@ -1,4 +1,4 @@
-
+import { NavLink } from "react-router-dom";
 
 
 
@@ -14,19 +14,10 @@ export const Header = () => {
                 </div>
                 <ul>
                     <li>
-                        <a href="#">page 1</a>
+                        <NavLink to={'/'} >home</NavLink>
                     </li>
                     <li>
-                        <a href="#">page 2</a>
-                    </li>
-                    <li>
-                        <a href="#">page 3</a>
-                    </li>
-                    <li>
-                        <a href="#">page 4</a>
-                    </li>
-                    <li>
-                        <a href="#">page 5</a>
+                        <NavLink to={'news'} >news</NavLink>
                     </li>
                 </ul>
             </nav>
