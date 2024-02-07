@@ -50,7 +50,7 @@ const requestRecipe = () => {
     })
 }
 const requestSuggestions = () => {
-    axios.get(suggestionsUrl + '?number=10&query=' + searchKeyword + '&apiKey=' + foodApiKey )
+    axios.get(suggestionsUrl + '?number=5&query=' + searchKeyword + '&apiKey=' + foodApiKey )
     .then((res) => {
         console.log(res.data);
         setSuggestions(res.data)
@@ -65,7 +65,7 @@ const requestSuggestions = () => {
         <main>
             <h1 className="recipe-page-title">search recipe by your needs</h1>
             <div className="input-wrapper">
-                <input onInput={handleSearch} type="text" value={searchKeyword} />
+                <input onInput={handleSearch} type="search" value={searchKeyword} />
                 <button onClick={requestRecipe}>search</button>
                 <div className="suggestions">
                 {suggestions?.map((suggestion:any) => {
