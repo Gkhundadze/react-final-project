@@ -70,11 +70,13 @@ main {
     @include flex;
     @include justify-center;
     @include align-center;
+    @include flex-column;
     input {
       @include p(5px);
     }
     button{
       @include p(5px);
+      @include m-y(1rem);
     }
   }
   .recipe-container {
@@ -109,6 +111,10 @@ main {
           
         }
       }
+    }
+    .no-recipe-message {
+      color: $warning;
+      @include f-z(1.5rem)
     }
   }
 }

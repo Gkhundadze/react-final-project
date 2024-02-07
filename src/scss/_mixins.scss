@@ -5,6 +5,9 @@
 @mixin flex {
     display: flex;
 }
+@mixin flex-column {
+    flex-direction: column;
+}
 @mixin justify-center {
     justify-content: center;
 }
@@ -77,6 +80,9 @@
 // margins
 @mixin m-reset {
     margin: 0;
+}
+@mixin m-y ($value) {
+    margin: $value 0;
 }
 @mixin m-t($value) {
     margin-top: $value;
