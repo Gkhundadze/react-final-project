@@ -19,7 +19,7 @@ export const NewsPage = () => {
     return (
         <>
             <div>
-                {articles.map((article) => {
+                {articles.map((article:any) => {
                     return <div key={article.title}>{article.author}</div>
                 })}
             </div>

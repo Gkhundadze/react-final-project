@@ -19,6 +19,9 @@ export const Header = () => {
                     <li>
                         <NavLink to={'news'} >news</NavLink>
                     </li>
+                    <li>
+                        <NavLink to={'food'} >food</NavLink>
+                    </li>
                 </ul>
             </nav>
         </header>

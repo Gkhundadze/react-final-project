@@ -29,6 +29,9 @@
 @mixin gap($value) {
     gap: $value;
 }
+@mixin wrap {
+    flex-wrap: wrap;
+}
 
 @mixin block {
     display: block;
@@ -52,6 +55,23 @@
 }
 @mixin f-w-b {
     font-weight: 600;
+}
+@mixin f-z($value) {
+    font-size: $value;
+}
+
+// text
+@mixin text-center {
+    text-align: center;
+}
+@mixin uppercase {
+    text-transform: uppercase;
+}
+@mixin lowercase {
+    text-transform: uppercase;
+}
+@mixin capitalize {
+    text-transform: capitalize;
 }
 
 // margins

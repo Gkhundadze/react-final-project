@@ -56,3 +56,59 @@ header {
     }
   }
 }
+
+
+// food
+main {
+  .recipe-page-title {
+    @include f-z(2rem);
+    @include capitalize;
+    @include text-center;
+    @include m-b(1rem)
+  }
+  .input-wrapper {
+    @include flex;
+    @include justify-center;
+    @include align-center;
+    input {
+      @include p(5px);
+    }
+    button{
+      @include p(5px);
+    }
+  }
+  .recipe-container {
+    @include flex;
+    @include justify-evenly;
+    @include align-center;
+    @include wrap;
+    .recipe-card {
+      @include p(20px);
+  
+      img {
+        width: 100%;
+        max-width: 600px;
+        height: auto;
+        @include inline-block;
+        @include m-b(10px)
+      }
+      h4 {
+        @include text-center;
+        @include m-b(10px);
+        @include f-w-b;
+        @include f-z(1.5rem);
+      }
+      .card-footer {
+        @include flex;
+        @include justify-between;
+        @include align-center;
+        .ready-in {
+  
+        }
+        .source {
+          
+        }
+      }
+    }
+  }
+}

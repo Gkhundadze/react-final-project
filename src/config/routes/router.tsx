@@ -3,6 +3,7 @@ import { Root } from "../../components/pages/Root"
 import { ErrorPage } from '../../components/pages/ErrorPage'
 import { MainPage } from '../../components/pages/MainPage'
 import { NewsPage } from "../../components/pages/NewsPage"
+import { FoodPage } from "../../components/pages/FoodPage"
 
 
 export const router = createBrowserRouter([
@@ -18,6 +19,10 @@ export const router = createBrowserRouter([
             {
                 path: 'news',
                 element: <NewsPage />
+            },
+            {
+                path: 'food',
+                element: <FoodPage />
             }
         ]
     }
