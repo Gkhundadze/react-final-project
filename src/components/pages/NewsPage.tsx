@@ -1,26 +1,38 @@
 import { useEffect, useState } from "react"
-import { topHeadlinesURL, newsApiKey } from "../../config/api/news"
+import { newsApiURL, newsApiKey } from "../../config/api/news"
 import axios from 'axios'
-
+import brokenImage from '../../assets/images/broken-image.gif'
 
 export const NewsPage = () => {
     const [articles, setArticles] = useState([])
-    const requestURL: string = topHeadlinesURL + '?country=us' + '&apiKey=' + newsApiKey
+    const requestURL: string = newsApiURL + '?apiKey=' + newsApiKey
 
 
     useEffect(() => {
         axios.get(requestURL)
             .then((res) => {
-                setArticles(res.data.articles)
+                setArticles(res.data.results)
+                console.log(res.data.results);
+                
             })
             .catch((err) => console.log(err))
+        
     }, [])
 
     return (
         <>
-            <div>
+            <div className="articles-container">
                 {articles.map((article:any) => {
-                    return <div key={article.title}>{article.author}</div>
+                    return (
+                        <div className="article-card" key={article.article_id}>
+                            <img 
+                                src={article.image_url ? article.image_url :brokenImage} 
+                                alt={article.title} 
+                            />
+                            <h3>{article.title}</h3>
+                            <p>{article.description ? article.description : 'No Description Available' }</p>
+                        </div>
+                    )
                 })}
             </div>
         </>

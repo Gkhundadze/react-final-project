@@ -10,6 +10,7 @@
   padding: 0;
   box-sizing: border-box;
   font-size: 16px;
+  font-weight: normal;
 }
 ul {
   list-style: none;
@@ -31,34 +32,105 @@ a {
 
 // header
 header {
-  nav {
-    @include flex;
-    @include justify-between;
-    @include align-center;
-    @include p($offset-10);
-    .logo {
-      a {
-
-        img {
-          width: $offset-10 * 3;
+  @include p(1rem);
+  border-bottom: 1px solid black;
+  .container {
+    nav {
+      @include flex;
+      @include justify-between;
+      @include align-center;
+      @include p($offset-10);
+      .logo {
+        a {
+  
+          img {
+            width: $offset-10 * 3;
+          }
         }
       }
-    }
-    ul {
-      @include flex;
-      @include gap($offset-10);
-      li {
-
-        a {
-          font-size: $offset-10 * 2;
+      ul {
+        @include flex;
+        @include gap($offset-10);
+        li {
+  
+          a {
+            font-size: $offset-10 * 2;
+          }
         }
       }
     }
   }
 }
 
+// news page
 
-// food
+.articles-container {
+  @include m-t(3rem);
+  @include flex;
+  @include justify-center;
+  @include align-center;
+  @include wrap;
+  @include gap(2rem);
+  .article-card {
+    width: 600px;
+    img {
+      width: 100%;
+      @include m-b(1rem)
+    }
+    h3 {
+      @include m-b(1rem);
+      @include f-z(1.3rem);
+      @include f-w-b;
+    }
+    p {
+
+    }
+  }
+}
+
+
+// books page
+
+.books-container {
+  @include m-t(3rem);
+  @include flex;
+  @include justify-center;
+  @include align-center;
+  @include wrap;
+  @include gap(2rem);
+  .book-card {
+    max-width: 400px;
+    img {
+    @include inline-block;
+    }
+    h3 {
+      @include f-z(1.2rem);
+      @include f-w-b;
+      @include text-center;
+    }
+    .book-price {
+      @include f-z(2rem);
+      @include text-right;
+    }
+    .stock-count {
+      @include f-z(1.1rem);
+      @include text-right;
+      .count {
+        @include f-w-b
+      }
+    }
+    .translator {
+
+      .person {
+        @include text-d-u;
+      }
+    }
+  }
+}
+
+
+
+// food page
 main {
   .recipe-page-title {
     @include f-z(2rem);

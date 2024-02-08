@@ -1,0 +1,1 @@
+export const bookApiURL:string = 'https://api.palitral.ge/api/book'

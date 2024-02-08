@@ -1,2 +1,4 @@
-export const newsApiKey: string = '5c83b35627fd412c93c3ed57a2723cc6'
-export const topHeadlinesURL: string = 'https://newsapi.org/v2/top-headlines'
+export const newsApiKey: string = 'pub_37877a5860eb2191b9ed502288ad75ffd4b15'
+export const newsApiURL: string = 'https://newsdata.io/api/1/news'
+
+

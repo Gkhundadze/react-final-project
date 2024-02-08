@@ -67,6 +67,12 @@
 @mixin text-center {
     text-align: center;
 }
+@mixin text-left {
+    text-align: left;
+}
+@mixin text-right {
+    text-align: right;
+}
 @mixin uppercase {
     text-transform: uppercase;
 }
@@ -75,6 +81,9 @@
 }
 @mixin capitalize {
     text-transform: capitalize;
+}
+@mixin text-d-u {
+    text-decoration: underline;
 }
 
 // margins
