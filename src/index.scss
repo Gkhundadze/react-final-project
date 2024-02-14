@@ -29,6 +29,15 @@ a {
   width: 90%;
   margin: 0 auto;
 }
+.error-wrapper {
+  h5 {
+    color: $warning;
+    @include f-z(18px);
+    @include f-w-b;
+    @include text-center;
+    @include uppercase;
+  }
+}
 
 // header
 header {
@@ -54,7 +63,9 @@ header {
         li {
   
           a {
-            font-size: $offset-10 * 2;
+            @include f-z(20px);
+            @include uppercase;
+            color: $primary;
           }
         }
       }
