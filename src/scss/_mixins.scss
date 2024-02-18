@@ -113,6 +113,9 @@
 @mixin p ($value) {
     padding: $value;
 }
+@mixin p-y-x ($y, $x) {
+    padding: $y $x;
+}
 @mixin p-t($value) {
     padding-top: $value;
 }

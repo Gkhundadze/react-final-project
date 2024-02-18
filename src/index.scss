@@ -74,7 +74,16 @@ header {
 }
 
 // news page
+.search-container {
+  @include flex;
+  @include justify-center;
+  @include align-center;
+  @include p-y-x(1rem, 0);
 
+  input {
+    @include p-y-x(.4rem, .5rem);
+  }
+}
 .articles-container {
   @include m-t(3rem);
   @include flex;
