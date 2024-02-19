@@ -105,6 +105,10 @@
 @mixin m-l($value) {
     margin-left: $value;
 }
+@mixin m-y($value) {
+    margin-top: $value ;
+    margin-bottom: $value ;
+}
 
 // paddings
 @mixin p-reset {

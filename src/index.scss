@@ -66,6 +66,9 @@ header {
             @include f-z(20px);
             @include uppercase;
             color: $primary;
+            &.active {
+              font-weight: bold;
+            }
           }
         }
       }
@@ -163,12 +166,27 @@ main {
     @include justify-center;
     @include align-center;
     @include flex-column;
+    position: relative;
     input {
       @include p(5px);
     }
     button{
       @include p(5px);
       @include m-y(1rem);
+    }
+    .suggestions {
+      width: 50%;
+      position: absolute;
+      top: 3rem;
+      left: 50%;
+      transform: translateX(-50%);
+      background-color: #442b2b;
+      @include p-y-x(.5rem, 1rem);
+      .suggestion-item {
+        cursor: pointer;
+        color: white;
+        @include m-y(.5rem);
+      }
     }
   }
   .recipe-container {
