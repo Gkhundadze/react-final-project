@@ -113,7 +113,13 @@ header {
 
 
 // books page
-
+.category-wrapper {
+  @include m-b(2rem);
+  .category-name {
+    @include f-w-b;
+    cursor: pointer;
+  }
+}
 .books-container {
   @include m-t(3rem);
   @include flex;
@@ -123,8 +129,11 @@ header {
   @include gap(2rem);
   .book-card {
     max-width: 400px;
-    img {
-    @include inline-block;
+    a {
+      img {
+        @include inline-block;
+        width: 100%;
+      }
     }
     h3 {
       @include f-z(1.2rem);
@@ -146,6 +155,13 @@ header {
 
       .person {
         @include text-d-u;
+      }
+    }
+    .details-page {
+      @include block;
+      @include text-right;
+      &:hover {
+        text-decoration: underline
       }
     }
   }

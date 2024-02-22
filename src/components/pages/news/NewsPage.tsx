@@ -40,7 +40,8 @@ export const NewsPage = () => {
             .catch((err) => {
                 setApiErrorMsg(err.response.data.results.message)                
             })
-            
+        console.log(articles);
+        
     }, [])
 
     return (
