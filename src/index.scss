@@ -23,7 +23,6 @@ a {
 
 
 // temporary classes
-
 .container {
   max-width: 1440px;
   width: 90%;
@@ -175,6 +174,34 @@ header {
 }
 
 // single book page
+.book-section {
+  margin-bottom: 1rem;
+  @include solid-b(black)
+}
+.author-section {
+  margin-bottom: 1rem;
+  @include solid-b(black);
+  .author-wrapper {
+    @include flex;
+    @include justify-between;
+    @include p(1rem);
+    .author-image {
+      @include block;
+      width: 300px;
+    }
+    h3 {
+      .author-fullname {
+        @include f-w-b();
+      }
+    }
+  }
+  .authors-books {
+    display: flex;
+    img {
+      width: 200px;
+    }
+  }
+}
 .similar-books-section {
   .similar-books-wrapper {
     @include flex;

@@ -22,6 +22,7 @@ export interface Book {
     legacy_img: string,
     name: string,
     year: number,
+    min_picture: string
     description: string,
     author_id: number,
     author?: Author
