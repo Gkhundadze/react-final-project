@@ -1,7 +1,7 @@
 import axios from "axios";
 import { useEffect, useState } from "react"
-import { useParams, useNavigate } from "react-router-dom";
-import { Book } from "../../../interfaces/Book";
+import { useParams, useNavigate, Link, useLocation, useSearchParams } from "react-router-dom";
+import { Author, Book } from "../../../interfaces/Book";
 
 
 
@@ -10,20 +10,33 @@ export const SingleBookPage = () => {
     const [book, setBook] = useState<Book>()
     const [categoryId, setCategoryId] = useState<number>(0)
     const [similarBooks, setSimilarBooks] = useState<Book[]>([])
+    const [authorsOtherBooks, setAuthorsOtherBooks] = useState<Book[]>([])
+    let [searchParams] = useSearchParams();
     let { bookId } = useParams<string>()
+    let location = useLocation()
     let navigate = useNavigate()
-    const url: string = `https://api.palitral.ge/api/book/${bookId}?author=1&category=1&series=1&limit=5`
+    const bookApiUrl: string = `https://api.palitral.ge/api/book/${bookId}?author=1&category=1&series=1&limit=5`
+    const authorApiUrl: string = 'https://api.palitral.ge/api/author/'
 
 
-        
+    function formURL(similarBookId:number) {
+        const pathname = location.pathname
+        const tempId = bookId?.toString()
+        let newUrl = pathname.replace(`${tempId}`, '') + similarBookId
+        return newUrl
+    }
+    
+    
 
     useEffect(() => {
-        axios.get(url)
+        axios.get(bookApiUrl)
             .then((res) => {
-                setBook(res.data);
+                if(res.status === 200 && res.statusText === 'OK') {
+                    setBook(res.data);
+                }
             })
-            .catch((error) => console.log(error))
-    }, [])
+            .catch((error) => alert(error.message))
+    }, [bookId])
 
     useEffect(() => {
         if(book) {
@@ -33,13 +46,25 @@ export const SingleBookPage = () => {
                 .then((res) => {
                     if(res.status === 200 && res.statusText === 'OK') {
                         setSimilarBooks(res.data.data)
-                        console.log(similarBooks);
-                        
                     }
                 })
-                .catch((error) => console.log(error))
+                .catch((error) => alert(error.message))
         }
     }, [book])
+    useEffect(() => {
+        const authorID = searchParams.get('authorId')
+
+        console.log(authorID);
+        axios.get(authorApiUrl + authorID)
+            .then((res) => {
+                if(res.status === 200 && res.statusText === 'OK') {
+                    setAuthorsOtherBooks(res.data.books)
+                    console.log(res.data.books);
+                    
+                }
+            })
+            .catch((error) => alert(error.message))
+    }, [])
     return (
         <>
             {book ? 
@@ -56,16 +81,33 @@ export const SingleBookPage = () => {
                 </>
             : null
             }
-            {similarBooks ? 
-                similarBooks.map((similarBook) => {
+            <section className="similar-books-section" style={{display: similarBooks ? 'block' : 'none'}}>
+                <h3 className="section-title">Similar Books</h3>
+            <div className="similar-books-wrapper">
+                {similarBooks ? 
+                    similarBooks.map((similarBook) => {
+                        return (
+                            <Link to={formURL(similarBook.id)} key={similarBook.id} className="similar-book-card">
+                                <img src={similarBook.legacy_img} alt={similarBook.name} />
+                                <h4>{similarBook.name}</h4>
+                            </Link>
+                        )
+                    })
+                : null
+                }
+            </div>
+            </section>
+            <section>
+                {authorsOtherBooks ? authorsOtherBooks.map((authorsBook, index) => {
                     return (
-                        <div key={similarBook.id} className="similar-book-wrapper">
-                            {similarBook.name}
-                        </div>
+                        <>
+                            <div key={authorsBook.author_id + index}>{authorsBook.name}</div>
+                        </>
                     )
                 })
-            : null
-            }
+                : null
+                }
+            </section>
         </>
     )
 }

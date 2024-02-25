@@ -29,6 +29,13 @@ a {
   width: 90%;
   margin: 0 auto;
 }
+.section-title {
+  @include f-z(1.5rem);
+  @include inline-block;
+  @include solid-b(black);
+  @include m(1rem);
+  cursor: pointer;
+}
 .error-wrapper {
   h5 {
     color: $warning;
@@ -162,6 +169,28 @@ header {
       @include text-right;
       &:hover {
         text-decoration: underline
+      }
+    }
+  }
+}
+
+// single book page
+.similar-books-section {
+  .similar-books-wrapper {
+    @include flex;
+    @include justify-evenly;
+    @include gap(1rem);
+    @include p(1rem);
+    .similar-book-card {
+      max-width: 250px;
+      img {
+        width: 100%;
+        @include block;
+      }
+      h4 {
+        @include text-center;
+        @include m-t(.5rem)
+  
       }
     }
   }

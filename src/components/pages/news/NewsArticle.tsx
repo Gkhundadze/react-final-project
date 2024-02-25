@@ -1,12 +1,10 @@
 import brokenImage from '../../../assets/images/broken-image.gif'
-
+import { imgErrorHandler } from "../../shared/other/brokenImageHandler"
 
 export const NewsArticle = (props:any) => {
     const { article } = props
     
-    const imgErrorHandler = (e:any) => {
-        e.target.src = brokenImage
-    }
+ 
     return (
         <div className="article-card">
             <img

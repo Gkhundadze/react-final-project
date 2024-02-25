@@ -1,16 +1,14 @@
-import { useCallback, useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import { bookApiURL, bookCategoryURL } from '../../../config/api/books'
 import ReactLoading from "react-loading"
 import axios from 'axios'
 import { useLocation, Link } from 'react-router-dom'
-import { bookCategory } from '../../../interfaces/Book'
-
-
-
+import { Book, bookCategory } from '../../../interfaces/Book'
+import { imgErrorHandler } from '../../shared/other/brokenImageHandler'
 
 
 export const BooksPage = () => {
-    const [books, setBooks] = useState([])
+    const [books, setBooks] = useState<Book[]>([])
     const [totalBooks, setTotalBooks] = useState(null)
     const [category, setCategory] = useState<bookCategory[]>([])
     const [page, setPage] = useState<number>(1)
@@ -54,6 +52,8 @@ export const BooksPage = () => {
                 if (res.status === 200 && res.statusText === 'OK') {
                     setBooks(res.data.data)
                     setLastPage(res.data.last_page);
+                    console.log(books);
+                    
                 }
             })
             .catch((err) => console.log(err))
@@ -94,8 +94,12 @@ export const BooksPage = () => {
                 {books ? books.map((book: any) => {
                     return (
                         <div className='book-card' key={book.id}>
-                            <Link to={location.pathname + '/' + book.id}>
-                                <img src={book.min_picture} alt={book.name} />
+                            <Link to={location.pathname + '/' + book.id+ `?authorId=${book.author_id}`}>
+                                <img 
+                                    src={book.min_picture} 
+                                    alt={book.name} 
+                                    onError={imgErrorHandler}
+                                />
                             </Link>
                             <h3>{book.name}</h3>
                             <div className='book-price'>{book.variations[0].price} ₾</div>

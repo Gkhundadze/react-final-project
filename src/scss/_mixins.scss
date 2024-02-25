@@ -90,6 +90,9 @@
 @mixin m-reset {
     margin: 0;
 }
+@mixin m($value) {
+    margin: $value;
+}
 @mixin m-y ($value) {
     margin: $value 0;
 }
@@ -132,3 +135,11 @@
 @mixin p-l($value) {
     padding-left: $value;
 }
+
+// borders
+
+@mixin solid-b($value) {
+    border-bottom: 1px solid $value;
+}
+
+
