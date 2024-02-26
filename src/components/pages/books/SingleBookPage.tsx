@@ -4,8 +4,8 @@ import { useParams, useNavigate, Link, useLocation, useSearchParams } from "reac
 import { Author, Book } from "../../../interfaces/Book";
 import { imgErrorHandler } from '../../shared/other/brokenImageHandler'
 import brokenImage from '../../../assets/images/broken-image.gif'
-
-
+import { Swiper, SwiperSlide } from 'swiper/react';
+import 'swiper/css';
 
 export const SingleBookPage = () => {
     const [book, setBook] = useState<Book>()
@@ -87,7 +87,7 @@ export const SingleBookPage = () => {
                 </>
                 : null
             }
-            <section className="author-section">
+            <section className="author-section" style={{ display: author ? 'block' : 'none' }}>
                 {author ? <>
                     <div className="author-wrapper">
                             <img 
@@ -96,7 +96,6 @@ export const SingleBookPage = () => {
                                 alt={author.fullname} 
                                 onError={imgErrorHandler}
                             />
-                            <span>{author.img}</span>
                             <h3>ავტორი : 
                                 <strong className="author-fullname">
                                     {author.fullname}
@@ -118,23 +117,40 @@ export const SingleBookPage = () => {
                 }
                     </div>
                 </>
-                    : <div> no data </div>
+                    : null
                 }
             </section>
             <section className="similar-books-section" style={{ display: similarBooks ? 'block' : 'none' }}>
                 <h3 className="section-title">Similar Books</h3>
-                <div className="similar-books-wrapper">
+                <div
+                    className="similar-books-wrapper"
+                >
+                    <Swiper
+                        spaceBetween={20}
+                        slidesPerView={3}
+                        onSlideChange={() => console.log('slide change')}
+                        onSwiper={(swiper) => console.log(swiper)}
+                    >
+
+                    
                     {similarBooks ?
                         similarBooks.map((similarBook) => {
                             return (
-                                <Link to={formURL(similarBook.id) + '?authorId=' + similarBook.author_id} key={similarBook.id} className="similar-book-card">
-                                    <img src={similarBook.legacy_img} alt={similarBook.name} />
-                                    <h4>{similarBook.name}</h4>
-                                </Link>
+                                <SwiperSlide>
+                                    <Link
+                                        to={formURL(similarBook.id) + '?authorId=' + similarBook.author_id}
+                                        key={similarBook.id}
+                                        className="similar-book-card"
+                                    >
+                                        <img src={similarBook.legacy_img} alt={similarBook.name} />
+                                        <h4>{similarBook.name}</h4>
+                                    </Link>
+                                </SwiperSlide>
                             )
                         })
                         : null
-                    }
+                        }
+                    </Swiper>
                 </div>
             </section>
         </>
