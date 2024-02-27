@@ -48,7 +48,6 @@ export const SingleBookPage = () => {
                 .then((res) => {
                     if (res.status === 200 && res.statusText === 'OK') {
                         setSimilarBooks(res.data.data)
-                        
                     }
                 })
                 .catch((error) => alert(error.message))
@@ -67,6 +66,7 @@ export const SingleBookPage = () => {
     }, [book])
     return (
         <>
+            {/* single book section */}
             {book ?
                 <>
                     <div className="navigation">
@@ -74,9 +74,9 @@ export const SingleBookPage = () => {
                     </div>
                     <section className="book-section">
                         <div className="book-wrapper">
-                            <img 
-                                src={book.legacy_img} 
-                                alt={book.name} 
+                            <img
+                                src={book.legacy_img}
+                                alt={book.name}
                                 onError={imgErrorHandler}
                             />
                             <h1>{book.name}</h1>
@@ -87,39 +87,53 @@ export const SingleBookPage = () => {
                 </>
                 : null
             }
+            {/* authors section */}
             <section className="author-section" style={{ display: author ? 'block' : 'none' }}>
                 {author ? <>
                     <div className="author-wrapper">
-                            <img 
-                                className="author-image" 
-                                src={author.img ? author.img : brokenImage} 
-                                alt={author.fullname} 
-                                onError={imgErrorHandler}
-                            />
-                            <h3>ავტორი : 
-                                <strong className="author-fullname">
-                                    {author.fullname}
-                                </strong>
-                            </h3>
-                        </div>
-                        <div className="authors-books">
+                        <img
+                            className="author-image"
+                            src={author.img ? author.img : brokenImage}
+                            alt={author.fullname}
+                            onError={imgErrorHandler}
+                        />
+                        <h3>ავტორი :
+                            <strong className="author-fullname">
+                                {author.fullname}
+                            </strong>
+                        </h3>
+                    </div>
+                    <div className="authors-books">
+                        <Swiper
+                            spaceBetween={20}
+                            slidesPerView={authorsOtherBooks.length > 3 ? 3 : 1}
+                            // onSlideChange={() => console.log('slide change')}
+                            // onSwiper={(swiper) => console.log(swiper)}
+                        >
                             {authorsOtherBooks ? authorsOtherBooks.map((authorsBook) => {
-                    return (
-                        <>
-                            <div className="authors-book" key={authorsBook.author_id}>
-                                <img src={authorsBook.min_picture} alt={authorsBook.name} />
-                                <h4>{authorsBook.name}</h4>
-                            </div>
-                        </>
-                    )
-                })
-                : null
-                }
+                                return (
+                                    <>
+                                        <SwiperSlide key={authorsBook.id}>
+                                            <Link
+                                                to={formURL(authorsBook.id) + '?authorId=' + authorsBook.author_id}
+                                                className="authors-book" key={authorsBook.author_id}
+                                            >
+                                                <img src={authorsBook.min_picture} alt={authorsBook.name} />
+                                                <h4>{authorsBook.name}</h4>
+                                            </Link>
+                                        </SwiperSlide>
+                                    </>
+                                )
+                            })
+                                : null
+                            }
+                        </Swiper>
                     </div>
                 </>
                     : null
                 }
             </section>
+            {/* similar books section */}
             <section className="similar-books-section" style={{ display: similarBooks ? 'block' : 'none' }}>
                 <h3 className="section-title">Similar Books</h3>
                 <div
@@ -127,28 +141,25 @@ export const SingleBookPage = () => {
                 >
                     <Swiper
                         spaceBetween={20}
-                        slidesPerView={3}
-                        onSlideChange={() => console.log('slide change')}
-                        onSwiper={(swiper) => console.log(swiper)}
+                        slidesPerView={similarBooks.length > 3 ? 3 : 1}
+                        // onSlideChange={() => console.log('slide change')}
+                        // onSwiper={(swiper) => console.log(swiper)}
                     >
-
-                    
-                    {similarBooks ?
-                        similarBooks.map((similarBook) => {
-                            return (
-                                <SwiperSlide>
-                                    <Link
-                                        to={formURL(similarBook.id) + '?authorId=' + similarBook.author_id}
-                                        key={similarBook.id}
-                                        className="similar-book-card"
-                                    >
-                                        <img src={similarBook.legacy_img} alt={similarBook.name} />
-                                        <h4>{similarBook.name}</h4>
-                                    </Link>
-                                </SwiperSlide>
-                            )
-                        })
-                        : null
+                        {similarBooks ?
+                            similarBooks.map((similarBook) => {
+                                return (
+                                    <SwiperSlide key={similarBook.id}>
+                                        <Link
+                                            to={formURL(similarBook.id) + '?authorId=' + similarBook.author_id}
+                                            className="similar-book-card"
+                                        >
+                                            <img src={similarBook.legacy_img} alt={similarBook.name} />
+                                            <h4>{similarBook.name}</h4>
+                                        </Link>
+                                    </SwiperSlide>
+                                )
+                            })
+                            : null
                         }
                     </Swiper>
                 </div>
