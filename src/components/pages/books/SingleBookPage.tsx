@@ -11,14 +11,15 @@ export const SingleBookPage = () => {
     const [book, setBook] = useState<Book>()
     const [categoryId, setCategoryId] = useState<number>(0)
     const [similarBooks, setSimilarBooks] = useState<Book[]>([])
-    const [author, setAuthor] = useState<Author>()
-    const [authorsOtherBooks, setAuthorsOtherBooks] = useState<Book[]>([])
-    let [searchParams] = useSearchParams();
+    // const [author, setAuthor] = useState<Author>()
+    // const [authorsOtherBooks, setAuthorsOtherBooks] = useState<Book[]>([])
+    // let [searchParams] = useSearchParams();
     let { bookId } = useParams<string>()
+    
     let location = useLocation()
     let navigate = useNavigate()
     const bookApiUrl: string = `https://api.palitral.ge/api/book/${bookId}?author=1&category=1&series=1&limit=5`
-    const authorApiUrl: string = 'https://api.palitral.ge/api/author/'
+    // const authorApiUrl: string = 'https://api.palitral.ge/api/author/'
 
 
     function formURL(similarBookId: number) {
@@ -26,6 +27,17 @@ export const SingleBookPage = () => {
         const tempId = bookId?.toString()
         let newUrl = pathname.replace(`${tempId}`, '') + similarBookId
         return newUrl
+    }
+    function formAuthorPageURL (authorName:string, authorId:number):string {
+        const pathname = location.pathname
+        const tempId = bookId?.toString()
+        const [name, lastname] = authorName.includes('-') ? authorName.split('-') : authorName.split(' ')
+        let authorPageURL = pathname.replace(`${tempId}`, `author/${name + '-' + lastname + '?authorId=' + authorId + '&bookId=' + bookId}`)
+        
+        // console.log(author);
+        
+        return authorPageURL
+        
     }
 
 
@@ -42,6 +54,8 @@ export const SingleBookPage = () => {
 
     useEffect(() => {
         if (book) {
+            console.log(book);
+            
             setCategoryId(book.category_id)
             const simalrBooksURL = `https://api.palitral.ge/api/book?category_id[]=${categoryId}&per_page=5&author=1&except=${bookId}`
             axios.get(simalrBooksURL)
@@ -53,17 +67,17 @@ export const SingleBookPage = () => {
                 .catch((error) => alert(error.message))
         }
     }, [book])
-    useEffect(() => {
-        const authorID = searchParams.get('authorId')
-        axios.get(authorApiUrl + authorID)
-            .then((res) => {
-                if (res.status === 200 && res.statusText === 'OK') {
-                    setAuthorsOtherBooks(res.data.books)
-                    setAuthor(res.data)
-                }
-            })
-            .catch((error) => alert(error.message))
-    }, [book])
+    // useEffect(() => {
+    //     const authorID = searchParams.get('authorId')
+    //     axios.get(authorApiUrl + authorID)
+    //         .then((res) => {
+    //             if (res.status === 200 && res.statusText === 'OK') {
+    //                 setAuthorsOtherBooks(res.data.books)
+    //                 setAuthor(res.data)
+    //             }
+    //         })
+    //         .catch((error) => alert(error.message))
+    // }, [book])
     return (
         <>
             {/* single book section */}
@@ -81,56 +95,24 @@ export const SingleBookPage = () => {
                             />
                             <h1>{book.name}</h1>
                             <p>წელი {book.year}</p>
-                            <p>{book.description}</p>
+                            {book.description ? <p>{book.description}</p> : <p> წიგნის აღწერა ვერ მოიძებნა</p> }
                         </div>
                     </section>
                 </>
                 : null
             }
             {/* authors section */}
-            <section className="author-section" style={{ display: author ? 'block' : 'none' }}>
-                {author ? <>
+            <section className="author-section">
+                {book?.author ? <>
                     <div className="author-wrapper">
-                        <img
-                            className="author-image"
-                            src={author.img ? author.img : brokenImage}
-                            alt={author.fullname}
-                            onError={imgErrorHandler}
-                        />
-                        <h3>ავტორი :
+                        <Link to={formAuthorPageURL(book?.author.fullname, book.author_id)}>ავტორი :
                             <strong className="author-fullname">
-                                {author.fullname}
+                                {book?.author.fullname}
                             </strong>
-                        </h3>
-                    </div>
-                    <div className="authors-books">
-                        <Swiper
-                            spaceBetween={20}
-                            slidesPerView={authorsOtherBooks.length > 3 ? 3 : 1}
-                            // onSlideChange={() => console.log('slide change')}
-                            // onSwiper={(swiper) => console.log(swiper)}
-                        >
-                            {authorsOtherBooks ? authorsOtherBooks.map((authorsBook) => {
-                                return (
-                                    <>
-                                        <SwiperSlide key={authorsBook.id}>
-                                            <Link
-                                                to={formURL(authorsBook.id) + '?authorId=' + authorsBook.author_id}
-                                                className="authors-book" key={authorsBook.author_id}
-                                            >
-                                                <img src={authorsBook.min_picture} alt={authorsBook.name} />
-                                                <h4>{authorsBook.name}</h4>
-                                            </Link>
-                                        </SwiperSlide>
-                                    </>
-                                )
-                            })
-                                : null
-                            }
-                        </Swiper>
+                        </Link>
                     </div>
                 </>
-                    : null
+                    : <div>ავტორი ვერ მოიძებნა</div>
                 }
             </section>
             {/* similar books section */}

@@ -6,6 +6,7 @@ import { NewsPage } from "../../components/pages/news/NewsPage"
 import { FoodPage } from "../../components/pages/FoodPage"
 import { BooksPage } from "../../components/pages/books/BooksPage"
 import { SingleBookPage } from "../../components/pages/books/SingleBookPage"
+import { AuthorPage } from "../../components/pages/books/AuthorPage"
 
 export const router = createBrowserRouter([
     {
@@ -28,6 +29,10 @@ export const router = createBrowserRouter([
             {
                 path: 'books/:bookId',
                 element: <SingleBookPage />
+            },
+            {
+                path: 'books/author/:author',
+                element: <AuthorPage />
             },
             {
                 path: 'food',

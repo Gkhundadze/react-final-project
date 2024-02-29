@@ -3,9 +3,6 @@ export interface bookCategory {
     name: string
 }
 
-
-
-
 export interface Author {
     id: number,
     country: string,
