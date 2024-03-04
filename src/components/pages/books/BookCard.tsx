@@ -11,7 +11,6 @@ export const BookCard = (props) => {
 
 
     return (
-        <SwiperSlide >
             <Link
                 to={formURL()}
                 className="authors-book" key={bookData.author_id}
@@ -19,6 +18,5 @@ export const BookCard = (props) => {
                 <img src={bookData.min_picture} alt={bookData.name} />
                 <h4>{bookData.name}</h4>
             </Link>
-    </SwiperSlide>
     )
 }
