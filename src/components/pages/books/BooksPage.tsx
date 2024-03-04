@@ -6,7 +6,6 @@ import { useLocation, Link } from 'react-router-dom'
 import { Book, bookCategory } from '../../../interfaces/Book'
 import { imgErrorHandler } from '../../shared/other/brokenImageHandler'
 
-
 export const BooksPage = () => {
     const [books, setBooks] = useState<Book[]>([])
     const [totalBooks, setTotalBooks] = useState(null)
@@ -52,8 +51,6 @@ export const BooksPage = () => {
                 if (res.status === 200 && res.statusText === 'OK') {
                     setBooks(res.data.data)
                     setLastPage(res.data.last_page);
-                    console.log(books);
-                    
                 }
             })
             .catch((err) => console.log(err))

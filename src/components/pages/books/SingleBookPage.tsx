@@ -5,6 +5,8 @@ import { Author, Book } from "../../../interfaces/Book";
 import { imgErrorHandler } from '../../shared/other/brokenImageHandler'
 import brokenImage from '../../../assets/images/broken-image.gif'
 import { Swiper, SwiperSlide } from 'swiper/react';
+import {scrollToTop} from '../../shared/other/scrollToTop'
+
 import 'swiper/css';
 
 export const SingleBookPage = () => {
@@ -43,6 +45,8 @@ export const SingleBookPage = () => {
 
 
     useEffect(() => {
+        scrollToTop()
+
         axios.get(bookApiUrl)
             .then((res) => {
                 if (res.status === 200 && res.statusText === 'OK') {
@@ -54,8 +58,6 @@ export const SingleBookPage = () => {
 
     useEffect(() => {
         if (book) {
-            console.log(book);
-            
             setCategoryId(book.category_id)
             const simalrBooksURL = `https://api.palitral.ge/api/book?category_id[]=${categoryId}&per_page=5&author=1&except=${bookId}`
             axios.get(simalrBooksURL)
@@ -105,7 +107,7 @@ export const SingleBookPage = () => {
             <section className="author-section">
                 {book?.author ? <>
                     <div className="author-wrapper">
-                        <Link to={formAuthorPageURL(book?.author.fullname, book.author_id)}>ავტორი :
+                        <Link to={formAuthorPageURL(book?.author.fullname, book.author_id)}>ავტორი : 
                             <strong className="author-fullname">
                                 {book?.author.fullname}
                             </strong>

@@ -176,7 +176,12 @@ header {
 // single book page
 .book-section {
   margin-bottom: 1rem;
-  @include solid-b(black)
+  @include solid-b(black);
+  .book-wrapper {
+    img {
+      width: 400px;
+    }
+  }
 }
 .author-section {
   margin-bottom: 1rem;
@@ -189,17 +194,31 @@ header {
       @include block;
       width: 300px;
     }
-    h3 {
+    a {
       .author-fullname {
         @include f-w-b();
+        @include m-l(.5rem);
+        color: $primary;
       }
     }
   }
+  
+}
+
+// authors page
+section {
+  .author-wrapper {
+    .author-image {
+      width: 400px;
+    }
+
+  }
   .authors-books {
-    display: flex;
-    flex-wrap: wrap;
+    .authors-books-title {
+      font-size: 1.5rem;
+    }
     img {
-      width: 200px;
+      height: 230px;
     }
   }
 }
