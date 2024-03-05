@@ -65,6 +65,7 @@ header {
       }
       ul {
         @include flex;
+        align-items: center;
         @include gap($offset-10);
         li {
   

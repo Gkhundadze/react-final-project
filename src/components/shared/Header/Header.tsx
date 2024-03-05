@@ -1,4 +1,5 @@
 import { NavLink } from "react-router-dom";
+import { GoogleAuth } from "../other/GoogleAuth";
 
 
 
@@ -25,6 +26,9 @@ export const Header = () => {
                         </li>
                         <li>
                             <NavLink to={'food'} >food</NavLink>
+                        </li>
+                        <li>
+                            <GoogleAuth />
                         </li>
                     </ul>
                 </nav>
