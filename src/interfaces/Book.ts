@@ -16,6 +16,9 @@ export interface Author {
 export interface Book {
     id: number,
     category_id: number,
+    category?: {
+        name: string
+    }
     legacy_img: string,
     name: string,
     year: number,

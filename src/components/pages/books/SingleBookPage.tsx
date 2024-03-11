@@ -1,17 +1,19 @@
 import axios from "axios";
 import { useEffect, useState } from "react"
 import { useParams, useNavigate, Link, useLocation, useSearchParams } from "react-router-dom";
-import { Author, Book } from "../../../interfaces/Book";
+import { Book } from "../../../interfaces/Book";
 import { imgErrorHandler } from '../../shared/other/brokenImageHandler'
 import brokenImage from '../../../assets/images/broken-image.gif'
 import { Swiper, SwiperSlide } from 'swiper/react';
+import { Navigation } from 'swiper/modules';
 import {scrollToTop} from '../../shared/other/scrollToTop'
 
-import 'swiper/css';
+import 'swiper/css/bundle';
+
 
 export const SingleBookPage = () => {
     const [book, setBook] = useState<Book>()
-    const [categoryId, setCategoryId] = useState<number>(0)
+    // const [categoryId, setCategoryId] = useState<number>(0)
     const [similarBooks, setSimilarBooks] = useState<Book[]>([])
     // const [author, setAuthor] = useState<Author>()
     // const [authorsOtherBooks, setAuthorsOtherBooks] = useState<Book[]>([])
@@ -35,15 +37,8 @@ export const SingleBookPage = () => {
         const tempId = bookId?.toString()
         const [name, lastname] = authorName.includes('-') ? authorName.split('-') : authorName.split(' ')
         let authorPageURL = pathname.replace(`${tempId}`, `author/${name + '-' + lastname + '?authorId=' + authorId + '&bookId=' + bookId}`)
-        
-        // console.log(author);
-        
-        return authorPageURL
-        
+        return authorPageURL 
     }
-
-
-
     useEffect(() => {
         scrollToTop()
 
@@ -58,8 +53,7 @@ export const SingleBookPage = () => {
 
     useEffect(() => {
         if (book) {
-            setCategoryId(book.category_id)
-            const simalrBooksURL = `https://api.palitral.ge/api/book?category_id[]=${categoryId}&per_page=5&author=1&except=${bookId}`
+            const simalrBooksURL = `https://api.palitral.ge/api/book?category_id[]=${book.category_id}&per_page=10&author=1&except=${bookId}`
             axios.get(simalrBooksURL)
                 .then((res) => {
                     if (res.status === 200 && res.statusText === 'OK') {
@@ -68,6 +62,7 @@ export const SingleBookPage = () => {
                 })
                 .catch((error) => alert(error.message))
         }
+        
     }, [book])
     // useEffect(() => {
     //     const authorID = searchParams.get('authorId')
@@ -97,6 +92,7 @@ export const SingleBookPage = () => {
                             />
                             <h1>{book.name}</h1>
                             <p>წელი {book.year}</p>
+                            <p>კატეგორია : {book.category?.name}</p>
                             {book.description ? <p>{book.description}</p> : <p> წიგნის აღწერა ვერ მოიძებნა</p> }
                         </div>
                     </section>
@@ -124,6 +120,8 @@ export const SingleBookPage = () => {
                     className="similar-books-wrapper"
                 >
                     <Swiper
+                        navigation={true} 
+                        modules={[Navigation]}
                         spaceBetween={20}
                         slidesPerView={similarBooks.length > 3 ? 3 : 1}
                         // onSlideChange={() => console.log('slide change')}

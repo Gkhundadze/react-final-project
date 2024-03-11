@@ -2,19 +2,29 @@ import { useEffect, useState } from 'react'
 import { bookApiURL, bookCategoryURL } from '../../../config/api/books'
 import ReactLoading from "react-loading"
 import axios from 'axios'
-import { useLocation, Link } from 'react-router-dom'
+import { useLocation, Link, useSearchParams } from 'react-router-dom'
 import { Book, bookCategory } from '../../../interfaces/Book'
 import { imgErrorHandler } from '../../shared/other/brokenImageHandler'
 
 export const BooksPage = () => {
+    const [searchParams, setSearchParams] = useSearchParams();
     const [books, setBooks] = useState<Book[]>([])
     const [totalBooks, setTotalBooks] = useState(null)
     const [category, setCategory] = useState<bookCategory[]>([])
-    const [page, setPage] = useState<number>(1)
+    const [page, setPage] = useState<number>(checkPage)
     const [lastPage, setLastPage] = useState(null)
     const [disablePrev, setDisablePrev] = useState(false)
     const [disableNext, setDisableNext] = useState(false)
     let location = useLocation()
+
+
+
+    function checkPage() {
+        if(searchParams.get('page') != null) {
+            return Number(searchParams.get('page'))
+        }
+        return 1
+    }
 
     function nextPage() {
         setPage(page + 1)
@@ -28,9 +38,7 @@ export const BooksPage = () => {
             setDisablePrev(true)
         }else {
             setDisablePrev(false)
-
         }
-        
     }
     function disableNextBtn(pageNumber:any) {
         if(pageNumber === lastPage) {
@@ -41,8 +49,13 @@ export const BooksPage = () => {
     }
 
     useEffect(() => {
+        console.log(page);
+        
         disablePrevBtn(page)
         disableNextBtn(page)
+        setSearchParams(`page=${page}`)
+        
+        
     }, [page])
     useEffect(() => {
         axios.get(bookApiURL+ `?page=${page}`)
@@ -54,6 +67,8 @@ export const BooksPage = () => {
                 }
             })
             .catch((err) => console.log(err))
+           
+            
     }, [page])
 
     useEffect(() => {
@@ -113,7 +128,7 @@ export const BooksPage = () => {
                                 : null
                             }
                             <Link 
-                                to={location.pathname + '/' + book.id}
+                                to={location.pathname + '/' + book.id+ `?authorId=${book.author_id}`}
                                 className='details-page'
                             >
                                 დეტალურად

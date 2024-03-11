@@ -6,13 +6,13 @@ import 'swiper/css/bundle';
 
 
 export const BookCard = (props) => {
-    const {bookData, formURL} = props
+    const {bookData, formURL, id} = props
     
 
 
     return (
             <Link
-                to={formURL()}
+                to={formURL(id)}
                 className="authors-book" key={bookData.author_id}
             >
                 <img src={bookData.min_picture} alt={bookData.name} />

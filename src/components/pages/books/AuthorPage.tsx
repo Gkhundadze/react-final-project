@@ -21,10 +21,11 @@ export const AuthorPage = () => {
 
     
     
-    function formURL() {
+    function formURL(currentBookId:any) {
         const pathname = location.pathname
-        const tempId = bookId?.toString()
+        const tempId = currentBookId
         const newPath = pathname.slice(0, 7) + tempId + '?authorId=' + author?.id
+        
         return newPath
     }
 
@@ -82,6 +83,7 @@ export const AuthorPage = () => {
                                     <SwiperSlide key={authorsBook.id}>
                                         <BookCard 
                                         bookData={authorsBook}
+                                        id={authorsBook.id}
                                         formURL={formURL}
                                      />
                                     </SwiperSlide>
