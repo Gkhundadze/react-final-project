@@ -18,6 +18,10 @@ ul {
 a {
   text-decoration: none;
   color: inherit;
+  display: inline-block;
+}
+img {
+  width: 100%;
 }
 
 
@@ -127,6 +131,33 @@ header {
     cursor: pointer;
   }
 }
+.card-small {
+  max-width: 200px;
+  .card-image {
+    
+  }
+  .card-title {
+    
+  }
+}
+.card-regular {
+  width: 400px;
+  .card-image {
+
+  }
+  .card-title {
+    
+  }
+}
+.card-large {
+  width: 600px;
+  .card-image {
+
+  }
+  .card-title {
+    
+  }
+}
 .books-container {
   @include m-t(3rem);
   @include flex;
@@ -191,10 +222,6 @@ header {
     @include flex;
     @include justify-between;
     @include p(1rem);
-    .author-image {
-      @include block;
-      width: 300px;
-    }
     a {
       .author-fullname {
         @include f-w-b();
@@ -206,8 +233,10 @@ header {
   
 }
 
+
+
 // authors page
-section {
+.about-author {
   .author-wrapper {
     .author-image {
       width: 400px;
@@ -217,9 +246,6 @@ section {
   .authors-books {
     .authors-books-title {
       font-size: 1.5rem;
-    }
-    img {
-      height: 230px;
     }
   }
 }

@@ -9,6 +9,7 @@ import { Navigation } from 'swiper/modules';
 import {scrollToTop} from '../../shared/other/scrollToTop'
 
 import 'swiper/css/bundle';
+import { BookCard } from "./BookCard";
 
 
 export const SingleBookPage = () => {
@@ -85,12 +86,18 @@ export const SingleBookPage = () => {
                     </div>
                     <section className="book-section">
                         <div className="book-wrapper">
-                            <img
+                            <BookCard 
+                                bookData={book}
+                                cardSize={'regular'}
+                                clickable={false}
+                                formURL={formURL}
+                            />
+                            {/* <img
                                 src={book.legacy_img}
                                 alt={book.name}
                                 onError={imgErrorHandler}
                             />
-                            <h1>{book.name}</h1>
+                            <h1>{book.name}</h1> */}
                             <p>წელი {book.year}</p>
                             <p>კატეგორია : {book.category?.name}</p>
                             {book.description ? <p>{book.description}</p> : <p> წიგნის აღწერა ვერ მოიძებნა</p> }

@@ -49,8 +49,6 @@ export const BooksPage = () => {
     }
 
     useEffect(() => {
-        console.log(page);
-        
         disablePrevBtn(page)
         disableNextBtn(page)
         setSearchParams(`page=${page}`)
@@ -63,6 +61,8 @@ export const BooksPage = () => {
                 setTotalBooks(res.data.total)
                 if (res.status === 200 && res.statusText === 'OK') {
                     setBooks(res.data.data)
+                    console.log(res.data.data);
+                    
                     setLastPage(res.data.last_page);
                 }
             })
@@ -103,7 +103,7 @@ export const BooksPage = () => {
                 : null
             }
             <div className="books-container">
-                {books ? books.map((book: any) => {
+                {books.length > 0 ? books.map((book: Book) => {
                     return (
                         <div className='book-card' key={book.id}>
                             <Link to={location.pathname + '/' + book.id+ `?authorId=${book.author_id}`}>

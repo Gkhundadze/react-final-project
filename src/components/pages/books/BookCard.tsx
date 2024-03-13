@@ -1,22 +1,65 @@
-import { SwiperSlide } from 'swiper/react';
 import { Link } from "react-router-dom";
+import { imgErrorHandler } from "../../shared/other/brokenImageHandler";
+import brokenImage from '../../../assets/images/broken-image.gif'
 
-import 'swiper/css/bundle';
 
 
 
-export const BookCard = (props) => {
-    const {bookData, formURL, id} = props
+
+export const BookCard = (props: any) => {
+    const { bookData, formURL, cardSize, clickable } = props
+
+
+
+
+    if(bookData) {
+
+        console.log(bookData);
+    }
     
-
-
-    return (
+    function getImage () {
+        if(bookData.img) {
+            return bookData.img
+        }
+        else if(bookData.legacy_img) {
+            return bookData.legacy_img
+        }
+        else if(bookData.min_picture) {
+            return bookData.min_picture
+        }
+        else {
+            return brokenImage
+        }
+    }
+    
+    if (clickable) {
+        return (
             <Link
-                to={formURL(id)}
-                className="authors-book" key={bookData.author_id}
+                to={formURL(bookData.id)}
+                className={`card-${cardSize}`}
             >
-                <img src={bookData.min_picture} alt={bookData.name} />
-                <h4>{bookData.name}</h4>
+                <img 
+                    className="card-image" 
+                    src={bookData.min_picture ? bookData.min_picture : bookData.legacy_img} 
+                    alt={bookData.name} 
+                    onError={imgErrorHandler}
+                />
+                <h3 className="card-title">{bookData.name}</h3>
             </Link>
-    )
+        )
+    }
+    else {
+        return (
+            <div
+                className={`card-${cardSize}`}
+            >
+                <img 
+                    className="card-image" 
+                    onError={imgErrorHandler}
+                    src={bookData.legacy_img ? bookData.legacy_img : bookData.min_picture}
+                />
+                {/* <h3 className="card-title">{bookData.name}</h3> */}
+            </div>
+        )
+    }
 }
