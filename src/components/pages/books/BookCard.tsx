@@ -7,15 +7,12 @@ import brokenImage from '../../../assets/images/broken-image.gif'
 
 
 export const BookCard = (props: any) => {
-    const { bookData, formURL, cardSize, clickable } = props
+    const { bookData, formURL, cardSize, clickable, specialClass, path } = props
 
 
 
 
-    if(bookData) {
-
-        console.log(bookData);
-    }
+   
     
     function getImage () {
         if(bookData.img) {
@@ -34,9 +31,9 @@ export const BookCard = (props: any) => {
     
     if (clickable) {
         return (
+            <div className={`card-${cardSize} ${specialClass ? specialClass : ''}`}>
             <Link
-                to={formURL(bookData.id)}
-                className={`card-${cardSize}`}
+                to={path}
             >
                 <img 
                     className="card-image" 
@@ -44,21 +41,48 @@ export const BookCard = (props: any) => {
                     alt={bookData.name} 
                     onError={imgErrorHandler}
                 />
-                <h3 className="card-title">{bookData.name}</h3>
             </Link>
+            <h3 className="card-title">{bookData.name}</h3>
+            
+                        {(!bookData.translator || specialClass === 'promo') && cardSize != "small"
+                            ? <>
+                                <div className='book-price'>{bookData.variations[0].price} ₾</div>
+                                <div className="stock-count">
+                                    დარჩენილია : <span className='count'>{bookData.isInStock}</span> ცალი
+                                </div>
+                                <div className="translator">
+                                    თარგმანი :   <span className="person">
+                                        {bookData?.translator?.fullname ? bookData.translator.fullname : 'ინფორმაცია ვერ მოიძებნა'}
+                                    </span>
+                                </div>
+                                <Link 
+                                    to={path}
+                                    className='details-page'
+                                >
+                                    დეტალურად
+                                </Link>
+                            </>
+                            : null
+                        }
+                        
+            </div>
+       
         )
     }
     else {
         return (
             <div
-                className={`card-${cardSize}`}
+                className={`card-${cardSize} ${specialClass}`}
             >
                 <img 
                     className="card-image" 
                     onError={imgErrorHandler}
                     src={bookData.legacy_img ? bookData.legacy_img : bookData.min_picture}
                 />
-                {/* <h3 className="card-title">{bookData.name}</h3> */}
+                <h3 className="card-title">{bookData.name}</h3>
+                <p>წელი {bookData.year}</p>
+                <p>კატეგორია : {bookData.category?.name}</p>
+                {bookData.description ? <p>{bookData.description}</p> : <p> წიგნის აღწერა ვერ მოიძებნა</p> }
             </div>
         )
     }

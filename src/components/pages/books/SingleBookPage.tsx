@@ -89,18 +89,10 @@ export const SingleBookPage = () => {
                             <BookCard 
                                 bookData={book}
                                 cardSize={'regular'}
+                                specialClass='detailed'
                                 clickable={false}
                                 formURL={formURL}
                             />
-                            {/* <img
-                                src={book.legacy_img}
-                                alt={book.name}
-                                onError={imgErrorHandler}
-                            />
-                            <h1>{book.name}</h1> */}
-                            <p>წელი {book.year}</p>
-                            <p>კატეგორია : {book.category?.name}</p>
-                            {book.description ? <p>{book.description}</p> : <p> წიგნის აღწერა ვერ მოიძებნა</p> }
                         </div>
                     </section>
                 </>
@@ -138,13 +130,12 @@ export const SingleBookPage = () => {
                             similarBooks.map((similarBook) => {
                                 return (
                                     <SwiperSlide key={similarBook.id}>
-                                        <Link
-                                            to={formURL(similarBook.id) + '?authorId=' + similarBook.author_id}
-                                            className="similar-book-card"
-                                        >
-                                            <img src={similarBook.legacy_img} alt={similarBook.name} />
-                                            <h4>{similarBook.name}</h4>
-                                        </Link>
+                                        <BookCard
+                                            bookData={similarBook}
+                                            cardSize={'small'}
+                                            clickable={true}
+                                            path={formURL(similarBook.id) + '?authorId=' + similarBook.author_id}
+                                        />
                                     </SwiperSlide>
                                 )
                             })

@@ -148,6 +148,12 @@ header {
   .card-title {
     
   }
+  &.detailed {
+    width: 100%;
+  }
+  &.promo {
+    
+  }
 }
 .card-large {
   width: 600px;

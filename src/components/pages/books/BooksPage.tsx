@@ -5,6 +5,7 @@ import axios from 'axios'
 import { useLocation, Link, useSearchParams } from 'react-router-dom'
 import { Book, bookCategory } from '../../../interfaces/Book'
 import { imgErrorHandler } from '../../shared/other/brokenImageHandler'
+import { BookCard } from './BookCard'
 
 export const BooksPage = () => {
     const [searchParams, setSearchParams] = useSearchParams();
@@ -105,37 +106,14 @@ export const BooksPage = () => {
             <div className="books-container">
                 {books.length > 0 ? books.map((book: Book) => {
                     return (
-                        <div className='book-card' key={book.id}>
-                            <Link to={location.pathname + '/' + book.id+ `?authorId=${book.author_id}`}>
-                                <img 
-                                    src={book.min_picture} 
-                                    alt={book.name} 
-                                    onError={imgErrorHandler}
-                                />
-                            </Link>
-                            <h3>{book.name}</h3>
-                            <div className='book-price'>{book.variations[0].price} ₾</div>
-                            <div></div>
-                            <div className="stock-count">
-                                დარჩენილია : <span className='count'>{book.isInStock}</span> ცალი
-                            </div>
-                            {book.translator
-                                ? <div className="translator">
-                                    თარგმანი :   <span className="person">
-                                        {book.translator.fullname}
-                                    </span>
-                                </div>
-                                : null
-                            }
-                            <Link 
-                                to={location.pathname + '/' + book.id+ `?authorId=${book.author_id}`}
-                                className='details-page'
-                            >
-                                დეტალურად
-                            </Link>
-
-
-                        </div>
+                       <BookCard
+                            key={book.id}
+                            bookData={book}
+                            cardSize={'regular'}
+                            specialClass='promo'
+                            path={location.pathname + '/' + book.id+ `?authorId=${book.author_id}`}
+                            clickable={true}
+                       />
                     )
                 })
                     : <ReactLoading type={'balls'} color={'#2D9596'} height={667} width={375} />
