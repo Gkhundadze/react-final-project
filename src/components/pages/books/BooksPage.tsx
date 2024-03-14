@@ -1,13 +1,13 @@
-import { useEffect, useState } from 'react'
+import { useContext, useEffect, useState } from 'react'
 import { bookApiURL, bookCategoryURL } from '../../../config/api/books'
 import ReactLoading from "react-loading"
 import axios from 'axios'
 import { useLocation, Link, useSearchParams } from 'react-router-dom'
 import { Book, bookCategory } from '../../../interfaces/Book'
-import { imgErrorHandler } from '../../shared/other/brokenImageHandler'
 import { BookCard } from './BookCard'
-
+import { FavoritesContext } from '../../../contexts/FavoritesContext'
 export const BooksPage = () => {
+    const { setFavorites } = useContext(FavoritesContext)
     const [searchParams, setSearchParams] = useSearchParams();
     const [books, setBooks] = useState<Book[]>([])
     const [totalBooks, setTotalBooks] = useState(null)
@@ -62,8 +62,6 @@ export const BooksPage = () => {
                 setTotalBooks(res.data.total)
                 if (res.status === 200 && res.statusText === 'OK') {
                     setBooks(res.data.data)
-                    console.log(res.data.data);
-                    
                     setLastPage(res.data.last_page);
                 }
             })

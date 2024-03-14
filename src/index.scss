@@ -132,6 +132,7 @@ header {
   }
 }
 .card-small {
+  position: relative;
   max-width: 200px;
   .card-image {
     
@@ -139,14 +140,59 @@ header {
   .card-title {
     
   }
+  .vaforites-icon {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    cursor: pointer;
+    svg {
+      fill: #cccccc;
+      transition-duration: .3s;
+      pointer-events: none;
+    }
+    &:hover {
+      svg {
+        transform: scale(1.2);
+        fill: yellow;
+      }
+    }
+    &.active {
+      svg {
+        fill: yellow;
+      }
+    }
+  }
 }
 .card-regular {
+  position: relative;
   width: 400px;
   .card-image {
 
   }
   .card-title {
     
+  }
+  .vaforites-icon {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    cursor: pointer;
+    svg {
+      fill: #cccccc;
+      transition-duration: .3s;
+      pointer-events: none;
+    }
+    &:hover {
+      svg {
+        transform: scale(1.2);
+        fill: yellow;
+      }
+    }
+    &.active {
+      svg {
+        fill: yellow;
+      }
+    }
   }
   &.detailed {
     width: 100%;
@@ -156,12 +202,35 @@ header {
   }
 }
 .card-large {
+  position: relative;
   width: 600px;
   .card-image {
 
   }
   .card-title {
     
+  }
+  .vaforites-icon {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    cursor: pointer;
+    svg {
+      fill: #cccccc;
+      transition-duration: .3s;
+      pointer-events: none;
+    }
+    &:hover {
+      svg {
+        transform: scale(1.2);
+        fill: yellow;
+      }
+    }
+    &.active {
+      svg {
+        fill: yellow;
+      }
+    }
   }
 }
 .books-container {
