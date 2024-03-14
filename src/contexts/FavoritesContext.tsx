@@ -22,7 +22,6 @@ export const FavoritesProvider = ({children}:any) => {
     
     useEffect(() => {
         localStorage.setItem('favorites', JSON.stringify(favorites))
-        console.log(favorites);
     }, [favorites])
 
     return (

@@ -7,6 +7,7 @@ import { FoodPage } from "../../components/pages/FoodPage"
 import { BooksPage } from "../../components/pages/books/BooksPage"
 import { SingleBookPage } from "../../components/pages/books/SingleBookPage"
 import { AuthorPage } from "../../components/pages/books/AuthorPage"
+import { Favorites } from "../../components/shared/other/Favorites"
 
 export const router = createBrowserRouter([
     {
@@ -37,6 +38,10 @@ export const router = createBrowserRouter([
             {
                 path: 'food',
                 element: <FoodPage />
+            },
+            {
+                path: 'favorites',
+                element: <Favorites />
             }
         ]
     }

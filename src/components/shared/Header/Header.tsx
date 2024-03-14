@@ -28,6 +28,9 @@ export const Header = () => {
                             <NavLink to={'food'} >food</NavLink>
                         </li>
                         <li>
+                            <NavLink to={'favorites'} >favorites</NavLink>
+                        </li>
+                        <li>
                             <GoogleAuth />
                         </li>
                     </ul>

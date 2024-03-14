@@ -131,6 +131,19 @@ header {
     cursor: pointer;
   }
 }
+.card-extra-small {
+  position: relative;
+  max-width: 100px;
+  transition-duration: .3s;
+  overflow: hidden;
+  cursor: pointer;
+  .card-image {
+  }
+  .card-title {
+    @include f-w-b;
+  }
+  
+}
 .card-small {
   position: relative;
   max-width: 200px;
@@ -421,4 +434,12 @@ main {
       @include f-z(1.5rem)
     }
   }
+}
+
+// FAVORITES PAGE
+.favorites-wrapper {
+  @include flex;
+  @include gap(1rem);
+  @include wrap;
+  @include p(1rem);
 }

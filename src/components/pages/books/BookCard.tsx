@@ -77,6 +77,20 @@ export const BookCard = (props: any) => {
        
         )
     }
+    else if(!clickable && cardSize === 'extra-small') {
+        return (
+            <div
+                className={`card-${cardSize} ${specialClass}`}
+            >
+                <img 
+                    className="card-image" 
+                    onError={imgErrorHandler}
+                    src={bookData.legacy_img ? bookData.legacy_img : bookData.min_picture}
+                />
+                <h3 className="card-title">{bookData.name}</h3>
+            </div>
+        )
+    }
     else {
         return (
             <div

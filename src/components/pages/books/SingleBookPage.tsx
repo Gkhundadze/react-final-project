@@ -14,17 +14,12 @@ import { BookCard } from "./BookCard";
 
 export const SingleBookPage = () => {
     const [book, setBook] = useState<Book>()
-    // const [categoryId, setCategoryId] = useState<number>(0)
     const [similarBooks, setSimilarBooks] = useState<Book[]>([])
-    // const [author, setAuthor] = useState<Author>()
-    // const [authorsOtherBooks, setAuthorsOtherBooks] = useState<Book[]>([])
-    // let [searchParams] = useSearchParams();
     let { bookId } = useParams<string>()
     
     let location = useLocation()
     let navigate = useNavigate()
     const bookApiUrl: string = `https://api.palitral.ge/api/book/${bookId}?author=1&category=1&series=1&limit=5`
-    // const authorApiUrl: string = 'https://api.palitral.ge/api/author/'
 
 
     function formURL(similarBookId: number) {
@@ -65,20 +60,8 @@ export const SingleBookPage = () => {
         }
         
     }, [book])
-    // useEffect(() => {
-    //     const authorID = searchParams.get('authorId')
-    //     axios.get(authorApiUrl + authorID)
-    //         .then((res) => {
-    //             if (res.status === 200 && res.statusText === 'OK') {
-    //                 setAuthorsOtherBooks(res.data.books)
-    //                 setAuthor(res.data)
-    //             }
-    //         })
-    //         .catch((error) => alert(error.message))
-    // }, [book])
     return (
         <>
-            {/* single book section */}
             {book ?
                 <>
                     <div className="navigation">
@@ -98,7 +81,6 @@ export const SingleBookPage = () => {
                 </>
                 : null
             }
-            {/* authors section */}
             <section className="author-section">
                 {book?.author ? <>
                     <div className="author-wrapper">
@@ -112,7 +94,6 @@ export const SingleBookPage = () => {
                     : <div>ავტორი ვერ მოიძებნა</div>
                 }
             </section>
-            {/* similar books section */}
             <section className="similar-books-section" style={{ display: similarBooks ? 'block' : 'none' }}>
                 <h3 className="section-title">Similar Books</h3>
                 <div
