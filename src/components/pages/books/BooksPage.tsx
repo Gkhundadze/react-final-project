@@ -6,16 +6,18 @@ import { useLocation, Link, useSearchParams } from 'react-router-dom'
 import { Book, bookCategory } from '../../../interfaces/Book'
 import { BookCard } from './BookCard'
 import { FavoritesContext } from '../../../contexts/FavoritesContext'
+import { CategoryItem } from './CategoryItem'
 export const BooksPage = () => {
     const { setFavorites } = useContext(FavoritesContext)
     const [searchParams, setSearchParams] = useSearchParams();
     const [books, setBooks] = useState<Book[]>([])
     const [totalBooks, setTotalBooks] = useState(null)
-    const [category, setCategory] = useState<bookCategory[]>([])
+    const [categories, setCategories] = useState<bookCategory[]>([])
     const [page, setPage] = useState<number>(checkPage)
     const [lastPage, setLastPage] = useState(null)
     const [disablePrev, setDisablePrev] = useState(false)
     const [disableNext, setDisableNext] = useState(false)
+    const [mainCategory, setMainCategory] = useState<number | string>('')
     let location = useLocation()
 
 
@@ -48,16 +50,14 @@ export const BooksPage = () => {
             setDisableNext(false)
         }
     }
-
+  
     useEffect(() => {
         disablePrevBtn(page)
         disableNextBtn(page)
-        setSearchParams(`page=${page}`)
-        
-        
-    }, [page])
+        setSearchParams(`page=${page}&category_id[]=${mainCategory}`)
+    }, [page, mainCategory])
     useEffect(() => {
-        axios.get(bookApiURL+ `?page=${page}`)
+        axios.get(bookApiURL+ `?page=${page}&category_id[]=${mainCategory}`)
             .then((res: any) => {
                 setTotalBooks(res.data.total)
                 if (res.status === 200 && res.statusText === 'OK') {
@@ -68,54 +68,63 @@ export const BooksPage = () => {
             .catch((err) => console.log(err))
            
             
-    }, [page])
+    }, [page, mainCategory])
 
     useEffect(() => {
         axios.get(bookCategoryURL)
             .then((res: any) => {
                 if (res.status === 200 && res.statusText === 'OK') {
-                    setCategory(res.data);
+                    setCategories(res.data);
                 }
             })
             .catch((err) => console.log(err))
     }, [])
     return (
         <>
-            <div className="category-wrapper">
-                {category.map((singleCat) => {
-                    return (
-                        <span key={singleCat.id} className='category-name'>
-                            {singleCat.name + ', '}
-                        </span>
-                    )
-                })
+            <main>
+                <aside>
+                    <div className="category-wrapper">
+                        <h4>კატეგორიები</h4>
+                        {categories.map((singleCat) => {
+                            return ( 
+                                <CategoryItem 
+                                    key={singleCat.id} 
+                                    category={singleCat} 
+                                    categoryTrigger={setMainCategory}
+                                />
+                            )
+                        })
+                        }
+                    </div>
+                </aside>
+                <section className='books'>
+                {books.length > 0 ? <div className="book-quantity">
+                    <span>სულ <b>{totalBooks}</b> წიგნი</span>
+                </div>
+                    : null
                 }
-            </div>
-            <div className="pagination">
-                <button disabled={disablePrev} onClick={previousPage}>previous page</button>
-                <span>current page :{page}</span>
-                <button disabled={disableNext} onClick={nextPage}>next page</button>
-            </div>
-            {books.length > 0 ? <div className="book-quantity">
-                <span>სულ <b>{totalBooks}</b> წიგნი</span>
-            </div>
-                : null
-            }
-            <div className="books-container">
-                {books.length > 0 ? books.map((book: Book) => {
-                    return (
-                       <BookCard
+                <div className="books-container">
+                    {books.length > 0 ? books.map((book: Book) => {
+                        return (
+                        <BookCard
                             key={book.id}
                             bookData={book}
                             cardSize={'regular'}
                             specialClass='promo'
                             path={location.pathname + '/' + book.id+ `?authorId=${book.author_id}`}
                             clickable={true}
-                       />
-                    )
-                })
-                    : <ReactLoading type={'balls'} color={'#2D9596'} height={667} width={375} />
-                }
+                        />
+                        )
+                    })
+                        : <ReactLoading type={'balls'} color={'#2D9596'} height={667} width={375} />
+                    }
+                </div>
+                </section>
+            </main>
+            <div className="pagination">
+                <button disabled={disablePrev} onClick={previousPage}>previous page</button>
+                <span>current page :{page}</span>
+                <button disabled={disableNext} onClick={nextPage}>next page</button>
             </div>
         </>
     )

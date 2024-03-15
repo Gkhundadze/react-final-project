@@ -124,11 +124,37 @@ header {
 
 
 // books page
-.category-wrapper {
-  @include m-b(2rem);
-  .category-name {
-    @include f-w-b;
-    cursor: pointer;
+main {
+  display: flex;
+  gap: 1rem;
+  aside {
+    min-width: max-content;
+  }
+  .category-wrapper {
+    max-height: 500px;
+    overflow-y: scroll;
+    @include p(1rem);
+    @include flex;
+    @include flex-column;
+    h4 {
+      text-align: center;
+      @include f-w-b;
+      @include m-b(1rem);
+    }
+    .category {
+      @include m-b(.5rem);
+      input[type='checkbox'] {
+        margin-right: 10px;
+        pointer-events: inherit;
+      }
+      &:hover {
+        cursor: pointer;
+        background-color: #ccc;
+      }
+    }
+  }
+  .books {
+
   }
 }
 .card-extra-small {
