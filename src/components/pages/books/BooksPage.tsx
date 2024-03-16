@@ -7,6 +7,7 @@ import { Book, bookCategory } from '../../../interfaces/Book'
 import { BookCard } from './BookCard'
 import { FavoritesContext } from '../../../contexts/FavoritesContext'
 import { CategoryItem } from './CategoryItem'
+import { scrollToTop } from '../../shared/other/scrollToTop'
 export const BooksPage = () => {
     const { setFavorites } = useContext(FavoritesContext)
     const [searchParams, setSearchParams] = useSearchParams();
@@ -19,8 +20,7 @@ export const BooksPage = () => {
     const [disableNext, setDisableNext] = useState(false)
     const [mainCategory, setMainCategory] = useState<number | string>('')
     let location = useLocation()
-
-
+    const bookPerPage = 24
 
     function checkPage() {
         if(searchParams.get('page') != null) {
@@ -51,22 +51,30 @@ export const BooksPage = () => {
         }
     }
   
+
     useEffect(() => {
-        disablePrevBtn(page)
-        disableNextBtn(page)
-        setSearchParams(`page=${page}&category_id[]=${mainCategory}`)
-    }, [page, mainCategory])
-    useEffect(() => {
+        scrollToTop()
         axios.get(bookApiURL+ `?page=${page}&category_id[]=${mainCategory}`)
             .then((res: any) => {
                 setTotalBooks(res.data.total)
                 if (res.status === 200 && res.statusText === 'OK') {
-                    setBooks(res.data.data)
-                    setLastPage(res.data.last_page);
+                    if(res.data.data.length > 0 && res.data.last_page != null) {
+                        setBooks(res.data.data)
+                        setLastPage(res.data.last_page);
+                        console.log(res.data.data);
+                    }
+                    else {
+                        setTimeout(() => {
+                            console.log('something wrong');
+                        }, 1000)
+                        
+                    }
                 }
             })
             .catch((err) => console.log(err))
-           
+            disablePrevBtn(page)
+            disableNextBtn(page)
+            setSearchParams(`page=${page}&category_id[]=${mainCategory}`)   
             
     }, [page, mainCategory])
 
@@ -91,6 +99,7 @@ export const BooksPage = () => {
                                     key={singleCat.id} 
                                     category={singleCat} 
                                     categoryTrigger={setMainCategory}
+                                    pageReset={setPage}
                                 />
                             )
                         })
@@ -99,7 +108,7 @@ export const BooksPage = () => {
                 </aside>
                 <section className='books'>
                 {books.length > 0 ? <div className="book-quantity">
-                    <span>სულ <b>{totalBooks}</b> წიგნი</span>
+                    <span>მოიძებნა <b>{totalBooks}</b> წიგნი</span>
                 </div>
                     : null
                 }
@@ -121,11 +130,15 @@ export const BooksPage = () => {
                 </div>
                 </section>
             </main>
-            <div className="pagination">
+            {totalBooks > bookPerPage ? <>
+                <div className="pagination">
                 <button disabled={disablePrev} onClick={previousPage}>previous page</button>
                 <span>current page :{page}</span>
                 <button disabled={disableNext} onClick={nextPage}>next page</button>
             </div>
+            </> : null
+
+            }
         </>
     )
 }
