@@ -19,6 +19,7 @@ export const BooksPage = () => {
     const [disablePrev, setDisablePrev] = useState(false)
     const [disableNext, setDisableNext] = useState(false)
     const [mainCategory, setMainCategory] = useState<number | string>('')
+    const [checkedCategoryIds, setCheckedCategoryIds] = useState<number[]>([])
     let location = useLocation()
     const bookPerPage = 24
 
@@ -28,6 +29,8 @@ export const BooksPage = () => {
         }
         return 1
     }
+    
+    
 
     function nextPage() {
         setPage(page + 1)
@@ -50,18 +53,35 @@ export const BooksPage = () => {
             setDisableNext(false)
         }
     }
+    function setMultipleCategory(catIds:any[]) {
+        const categories:string[] = []
+        if(catIds.length > 0) {
+                catIds.forEach(categoryId => {
+                categories.push(`&category_id[]=${categoryId}`)
+            });
+            return categories
+        }
+        return []
+    }
+
+    function generateCategoryURL(queriesArr:string[]) {
+        let queryString = ''
+        queriesArr.forEach((query) => {
+            queryString += query
+        })
+        return queryString
+    }
   
 
     useEffect(() => {
         scrollToTop()
-        axios.get(bookApiURL+ `?page=${page}&category_id[]=${mainCategory}`)
+        axios.get(bookApiURL+ `?page=${page}&discount=&discount_id=&serie_id=&type=&block=&best=&year=&author=1&${generateCategoryURL(setMultipleCategory(checkedCategoryIds))}`)
             .then((res: any) => {
                 setTotalBooks(res.data.total)
                 if (res.status === 200 && res.statusText === 'OK') {
                     if(res.data.data.length > 0 && res.data.last_page != null) {
                         setBooks(res.data.data)
                         setLastPage(res.data.last_page);
-                        console.log(res.data.data);
                     }
                     else {
                         setTimeout(() => {
@@ -76,7 +96,7 @@ export const BooksPage = () => {
             disableNextBtn(page)
             setSearchParams(`page=${page}&category_id[]=${mainCategory}`)   
             
-    }, [page, mainCategory])
+    }, [page, mainCategory, checkedCategoryIds])
 
     useEffect(() => {
         axios.get(bookCategoryURL)
@@ -98,8 +118,10 @@ export const BooksPage = () => {
                                 <CategoryItem 
                                     key={singleCat.id} 
                                     category={singleCat} 
-                                    categoryTrigger={setMainCategory}
+                                    setMainCategory={setMainCategory}
                                     pageReset={setPage}
+                                    setCheckedCategoryIds={setCheckedCategoryIds}
+                                    checkedCategoryIds={checkedCategoryIds}
                                 />
                             )
                         })
