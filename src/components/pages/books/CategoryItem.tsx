@@ -3,9 +3,17 @@ import { useEffect, useState } from "react";
 
 
 export const CategoryItem = (props:any) => {
+    const {
+        category, 
+        setMainCategory, 
+        pageReset, 
+        setCheckedCategoryIds, 
+        checkedCategoryIds,
+        uncheck
+    } = props
     const [checked, setChecked] = useState<boolean>(false)
-    const {category, setMainCategory, pageReset, setCheckedCategoryIds, checkedCategoryIds} = props
 
+    
     
     // [...prev, category.id]
     function removeOldCategory(oldCategories:number[]) {
@@ -39,7 +47,11 @@ export const CategoryItem = (props:any) => {
             pageReset(1)
         }
     }
-
+    useEffect(() => {
+        if(uncheck) {
+            setChecked(false)
+        }
+    }, [uncheck])
     return (
         <label className='category' >
             <input 

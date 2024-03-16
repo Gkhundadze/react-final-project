@@ -8,6 +8,7 @@ import { BookCard } from './BookCard'
 import { FavoritesContext } from '../../../contexts/FavoritesContext'
 import { CategoryItem } from './CategoryItem'
 import { scrollToTop } from '../../shared/other/scrollToTop'
+import { TypeFilter } from './TypeFilter'
 export const BooksPage = () => {
     const { setFavorites } = useContext(FavoritesContext)
     const [searchParams, setSearchParams] = useSearchParams();
@@ -20,8 +21,21 @@ export const BooksPage = () => {
     const [disableNext, setDisableNext] = useState(false)
     const [mainCategory, setMainCategory] = useState<number | string>('')
     const [checkedCategoryIds, setCheckedCategoryIds] = useState<number[]>([])
+    const [bookTypePaper, setBookTypePaper] = useState('')
+    const [bookTypeAudio, setBookTypeAudio] = useState('')
+    const [uncheck, setUncheck] = useState<boolean>(false)
     let location = useLocation()
     const bookPerPage = 24
+
+    function resetAllFilters() {
+        setMainCategory('')
+        setCheckedCategoryIds([])
+        setBookTypePaper('')
+        setBookTypeAudio('')
+        setPage(1)
+        setUncheck(true)
+    }
+
 
     function checkPage() {
         if(searchParams.get('page') != null) {
@@ -72,10 +86,10 @@ export const BooksPage = () => {
         return queryString
     }
   
-
+    
     useEffect(() => {
         scrollToTop()
-        axios.get(bookApiURL+ `?page=${page}&discount=&discount_id=&serie_id=&type=&block=&best=&year=&author=1&${generateCategoryURL(setMultipleCategory(checkedCategoryIds))}`)
+        axios.get(bookApiURL+ `?page=${page}&discount=&discount_id=&serie_id=&type[]=${bookTypePaper}&type[]=${bookTypeAudio}&block=&best=&year=&author=1&${generateCategoryURL(setMultipleCategory(checkedCategoryIds))}`)
             .then((res: any) => {
                 setTotalBooks(res.data.total)
                 if (res.status === 200 && res.statusText === 'OK') {
@@ -94,9 +108,9 @@ export const BooksPage = () => {
             .catch((err) => console.log(err))
             disablePrevBtn(page)
             disableNextBtn(page)
-            setSearchParams(`page=${page}&category_id[]=${mainCategory}`)   
-            
-    }, [page, mainCategory, checkedCategoryIds])
+            setSearchParams(`page=${page}&discount=&discount_id=&serie_id=&type[]=${bookTypePaper}&type[]=${bookTypeAudio}&block=&best=&year=&author=1&${generateCategoryURL(setMultipleCategory(checkedCategoryIds))}`)
+            setUncheck(false)
+    }, [page, mainCategory, checkedCategoryIds, bookTypeAudio, bookTypePaper])
 
     useEffect(() => {
         axios.get(bookCategoryURL)
@@ -109,7 +123,7 @@ export const BooksPage = () => {
     }, [])
     return (
         <>
-            <main>
+            <main className='container books-page'>
                 <aside>
                     <div className="category-wrapper">
                         <h4>კატეგორიები</h4>
@@ -122,10 +136,33 @@ export const BooksPage = () => {
                                     pageReset={setPage}
                                     setCheckedCategoryIds={setCheckedCategoryIds}
                                     checkedCategoryIds={checkedCategoryIds}
+                                    uncheck={uncheck}
                                 />
                             )
                         })
                         }
+                    </div>
+                    <div className="type-wrapper">
+                        <h4>ტიპები</h4>
+                        <TypeFilter 
+                            bookType={bookTypePaper}
+                            setBookType={setBookTypePaper}
+                            name='paper'
+                            uncheck={uncheck}
+                        />
+                        <TypeFilter 
+                            bookType={bookTypeAudio}
+                            setBookType={setBookTypeAudio}
+                            name='audio'
+                            uncheck={uncheck}
+                        />
+                    </div>
+                    <div className="reset-filters">
+                        <button
+                            onClick={resetAllFilters}
+                        >
+                            გაწმენდა
+                        </button>
                     </div>
                 </aside>
                 <section className='books'>

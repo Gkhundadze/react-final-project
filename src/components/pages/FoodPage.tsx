@@ -93,7 +93,7 @@ export const FoodPage = () => {
         requestSuggestions()
     }, [req])
     return (
-        <main>
+        <main  className="food-page">
             <h1 className="recipe-page-title">search recipe by your needs</h1>
             <form className="input-wrapper">
                 <input onChange={handleSearch} type="search" value={searchKeyword} />

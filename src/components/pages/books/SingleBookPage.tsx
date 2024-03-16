@@ -1,9 +1,7 @@
 import axios from "axios";
 import { useEffect, useState } from "react"
-import { useParams, useNavigate, Link, useLocation, useSearchParams } from "react-router-dom";
+import { useParams, useNavigate, Link, useLocation } from "react-router-dom";
 import { Book } from "../../../interfaces/Book";
-import { imgErrorHandler } from '../../shared/other/brokenImageHandler'
-import brokenImage from '../../../assets/images/broken-image.gif'
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Navigation } from 'swiper/modules';
 import {scrollToTop} from '../../shared/other/scrollToTop'
@@ -61,7 +59,7 @@ export const SingleBookPage = () => {
         
     }, [book])
     return (
-        <>
+        <main className="single-book-section">
             {book ?
                 <>
                     <div className="navigation">
@@ -125,6 +123,6 @@ export const SingleBookPage = () => {
                     </Swiper>
                 </div>
             </section>
-        </>
+        </main>
     )
 }

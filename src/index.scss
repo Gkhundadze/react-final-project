@@ -12,14 +12,17 @@
   font-size: 16px;
   font-weight: normal;
 }
+
 ul {
   list-style: none;
 }
+
 a {
   text-decoration: none;
   color: inherit;
   display: inline-block;
 }
+
 img {
   width: 100%;
 }
@@ -28,10 +31,11 @@ img {
 
 // temporary classes
 .container {
-  max-width: 1440px;
-  width: 90%;
+  max-width: 1920px;
+  width: 98%;
   margin: 0 auto;
 }
+
 .section-title {
   @include f-z(1.5rem);
   @include inline-block;
@@ -39,6 +43,7 @@ img {
   @include m(1rem);
   cursor: pointer;
 }
+
 .error-wrapper {
   h5 {
     color: $warning;
@@ -53,30 +58,35 @@ img {
 header {
   @include p(1rem);
   border-bottom: 1px solid black;
+
   .container {
     nav {
       @include flex;
       @include justify-between;
       @include align-center;
       @include p($offset-10);
+
       .logo {
         a {
-  
+
           img {
             width: $offset-10 * 3;
           }
         }
       }
+
       ul {
         @include flex;
         align-items: center;
         @include gap($offset-10);
+
         li {
-  
+
           a {
             @include f-z(20px);
             @include uppercase;
             color: $primary;
+
             &.active {
               font-weight: bold;
             }
@@ -98,6 +108,7 @@ header {
     @include p-y-x(.4rem, .5rem);
   }
 }
+
 .articles-container {
   @include m-t(3rem);
   @include flex;
@@ -105,51 +116,113 @@ header {
   @include align-center;
   @include wrap;
   @include gap(2rem);
+
   .article-card {
     width: 600px;
+
     img {
       width: 100%;
       @include m-b(1rem)
     }
+
     h3 {
       @include m-b(1rem);
       @include f-z(1.3rem);
       @include f-w-b;
     }
-    p {
 
-    }
+    p {}
   }
 }
 
 
 // books page
-main {
+.books-page {
   display: flex;
   gap: 1rem;
+
   aside {
     min-width: max-content;
-  }
-  .category-wrapper {
-    max-height: 500px;
-    overflow-y: scroll;
-    @include p(1rem);
-    @include flex;
-    @include flex-column;
-    h4 {
-      text-align: center;
-      @include f-w-b;
-      @include m-b(1rem);
-    }
-    .category {
-      @include m-b(.5rem);
-      input[type='checkbox'] {
-        margin-right: 10px;
-        pointer-events: inherit;
+    border-right: 1px solid black;
+    border-bottom: 1px solid black;
+    height: max-content;
+    @include p-b(.5rem);
+    @include p-r(.5rem);
+    @include p-t(.5rem);
+
+    .category-wrapper {
+      box-shadow: rgba(50, 50, 93, 0.25) 0px 30px 60px -12px inset, rgba(0, 0, 0, 0.3) 0px 18px 36px -18px inset;
+      max-height: 500px;
+      overflow-y: scroll;
+      @include p(1rem);
+      @include flex;
+      @include flex-column;
+      @include gap(.4rem);
+
+      h4 {
+        text-align: center;
+        @include f-w-b;
+        @include m-b(1rem);
+        @include f-z(1.2rem);
       }
-      &:hover {
+
+      .category {
+        @include m-b(.5rem);
+        @include f-z(1.1rem);
+        @include p-y-x(.3rem, 0);
+
+        input[type='checkbox'] {
+          margin-right: 10px;
+          pointer-events: inherit;
+          width: 20px;
+          height: 20px;
+          cursor: pointer;
+        }
+
+        &:hover {
+          cursor: pointer;
+          background-color: #ccc;
+        }
+      }
+    }
+    .type-wrapper {
+      box-shadow: rgba(50, 50, 93, 0.25) 0px 30px 60px -12px inset, rgba(0, 0, 0, 0.3) 0px 18px 36px -18px inset;
+      @include flex;
+      @include flex-column;
+      @include gap(.4rem);
+      @include p(1rem);
+      h4 {
+        text-align: center;
+        @include f-w-b;
+        @include m-b(1rem);
+        @include f-z(1.2rem);
+      }
+
+      .type {
+        @include m-b(.5rem);
+        @include f-z(1.1rem);
+        @include p-y-x(.3rem, 0);
+
+        input[type='checkbox'] {
+          margin-right: 10px;
+          pointer-events: inherit;
+          width: 20px;
+          height: 20px;
+          cursor: pointer;
+        }
+
+        &:hover {
+          cursor: pointer;
+          background-color: #ccc;
+        }
+      }
+      
+    }
+    .reset-filters {
+      text-align: center;
+      button {
+        @include p(.5rem);
         cursor: pointer;
-        background-color: #ccc;
       }
     }
   }
@@ -163,22 +236,17 @@ main {
   transition-duration: .3s;
   overflow: hidden;
   cursor: pointer;
-  .card-image {
-  }
+  .card-image {}
   .card-title {
     @include f-w-b;
   }
-  
 }
+
 .card-small {
   position: relative;
   max-width: 200px;
-  .card-image {
-    
-  }
-  .card-title {
-    
-  }
+  .card-image {}
+  .card-title {}
   .vaforites-icon {
     position: absolute;
     top: 10px;
@@ -202,15 +270,12 @@ main {
     }
   }
 }
+
 .card-regular {
   position: relative;
   width: 400px;
-  .card-image {
-
-  }
-  .card-title {
-    
-  }
+  .card-image {}
+  .card-title {}
   .vaforites-icon {
     position: absolute;
     top: 10px;
@@ -236,19 +301,14 @@ main {
   &.detailed {
     width: 100%;
   }
-  &.promo {
-    
-  }
+  &.promo {}
 }
+
 .card-large {
   position: relative;
   width: 600px;
-  .card-image {
-
-  }
-  .card-title {
-    
-  }
+  .card-image {}
+  .card-title {}
   .vaforites-icon {
     position: absolute;
     top: 10px;
@@ -272,6 +332,7 @@ main {
     }
   }
 }
+
 .books-container {
   @include m-t(3rem);
   @include flex;
@@ -304,7 +365,6 @@ main {
       }
     }
     .translator {
-
       .person {
         @include text-d-u;
       }
@@ -320,152 +380,166 @@ main {
 }
 
 // single book page
-.book-section {
-  margin-bottom: 1rem;
-  @include solid-b(black);
-  .book-wrapper {
-    img {
-      width: 400px;
-    }
-  }
-}
-.author-section {
-  margin-bottom: 1rem;
-  @include solid-b(black);
-  .author-wrapper {
-    @include flex;
-    @include justify-between;
-    @include p(1rem);
-    a {
-      .author-fullname {
-        @include f-w-b();
-        @include m-l(.5rem);
-        color: $primary;
+.single-book-section{
+  .book-section {
+    @include m-b(1rem);
+    @include solid-b(black);
+    .book-wrapper {
+      img {
+        width: 400px;
       }
     }
   }
   
+  .author-section {
+    margin-bottom: 1rem;
+    @include solid-b(black);
+    .author-wrapper {
+      @include flex;
+      @include justify-between;
+      @include p(1rem);
+      a {
+        .author-fullname {
+          @include f-w-b();
+          @include m-l(.5rem);
+          color: $primary;
+        }
+      }
+    }
+  }
 }
 
 
 
-// authors page
-.about-author {
-  .author-wrapper {
-    .author-image {
-      width: 400px;
+  // authors page
+  .about-author {
+    .author-wrapper {
+      .author-image {
+        width: 400px;
+      }
+
     }
 
-  }
-  .authors-books {
-    .authors-books-title {
-      font-size: 1.5rem;
+    .authors-books {
+      .authors-books-title {
+        font-size: 1.5rem;
+      }
     }
   }
-}
-.similar-books-section {
-  .similar-books-wrapper {
+
+  .similar-books-section {
+    .similar-books-wrapper {
+      @include flex;
+      @include justify-evenly;
+      @include gap(1rem);
+      @include p(1rem);
+
+      .similar-book-card {
+        max-width: 250px;
+
+        img {
+          width: 100%;
+          @include block;
+        }
+
+        h4 {
+          @include text-center;
+          @include m-t(.5rem)
+        }
+      }
+    }
+  }
+
+
+
+  // food page
+  .food-page {
+    .recipe-page-title {
+      @include f-z(2rem);
+      @include capitalize;
+      @include text-center;
+      @include m-b(1rem)
+    }
+
+    .input-wrapper {
+      @include flex;
+      @include justify-center;
+      @include align-center;
+      @include flex-column;
+      position: relative;
+
+      input {
+        @include p(5px);
+      }
+
+      button {
+        @include p(5px);
+        @include m-y(1rem);
+      }
+
+      .suggestions {
+        width: 50%;
+        position: absolute;
+        top: 3rem;
+        left: 50%;
+        transform: translateX(-50%);
+        background-color: #442b2b;
+        @include p-y-x(.5rem, 1rem);
+
+        .suggestion-item {
+          cursor: pointer;
+          color: white;
+          @include m-y(.5rem);
+        }
+      }
+    }
+
+    .recipe-container {
+      @include flex;
+      @include justify-evenly;
+      @include align-center;
+      @include wrap;
+
+      .recipe-card {
+        @include p(20px);
+
+        img {
+          width: 100%;
+          max-width: 600px;
+          height: auto;
+          @include inline-block;
+          @include m-b(10px)
+        }
+
+        h4 {
+          @include text-center;
+          @include m-b(10px);
+          @include f-w-b;
+          @include f-z(1.5rem);
+        }
+
+        .card-footer {
+          @include flex;
+          @include justify-between;
+          @include align-center;
+
+          .ready-in {}
+
+          .source {}
+        }
+      }
+
+      .no-recipe-message {
+        color: $warning;
+        @include f-z(1.5rem)
+      }
+    }
+  }
+
+  // FAVORITES PAGE
+  .favorites-wrapper {
     @include flex;
-    @include justify-evenly;
     @include gap(1rem);
-    @include p(1rem);
-    .similar-book-card {
-      max-width: 250px;
-      img {
-        width: 100%;
-        @include block;
-      }
-      h4 {
-        @include text-center;
-        @include m-t(.5rem)
-  
-      }
-    }
-  }
-}
-
-
-
-// food page
-main {
-  .recipe-page-title {
-    @include f-z(2rem);
-    @include capitalize;
-    @include text-center;
-    @include m-b(1rem)
-  }
-  .input-wrapper {
-    @include flex;
-    @include justify-center;
-    @include align-center;
-    @include flex-column;
-    position: relative;
-    input {
-      @include p(5px);
-    }
-    button{
-      @include p(5px);
-      @include m-y(1rem);
-    }
-    .suggestions {
-      width: 50%;
-      position: absolute;
-      top: 3rem;
-      left: 50%;
-      transform: translateX(-50%);
-      background-color: #442b2b;
-      @include p-y-x(.5rem, 1rem);
-      .suggestion-item {
-        cursor: pointer;
-        color: white;
-        @include m-y(.5rem);
-      }
-    }
-  }
-  .recipe-container {
-    @include flex;
-    @include justify-evenly;
-    @include align-center;
     @include wrap;
-    .recipe-card {
-      @include p(20px);
-  
-      img {
-        width: 100%;
-        max-width: 600px;
-        height: auto;
-        @include inline-block;
-        @include m-b(10px)
-      }
-      h4 {
-        @include text-center;
-        @include m-b(10px);
-        @include f-w-b;
-        @include f-z(1.5rem);
-      }
-      .card-footer {
-        @include flex;
-        @include justify-between;
-        @include align-center;
-        .ready-in {
-  
-        }
-        .source {
-          
-        }
-      }
-    }
-    .no-recipe-message {
-      color: $warning;
-      @include f-z(1.5rem)
-    }
+    @include p(1rem);
   }
-}
-
-// FAVORITES PAGE
-.favorites-wrapper {
-  @include flex;
-  @include gap(1rem);
-  @include wrap;
-  @include p(1rem);
-}
