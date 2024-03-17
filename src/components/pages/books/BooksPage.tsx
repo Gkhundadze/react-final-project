@@ -1,16 +1,14 @@
-import { useContext, useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import { bookApiURL, bookCategoryURL } from '../../../config/api/books'
 import ReactLoading from "react-loading"
 import axios from 'axios'
-import { useLocation, Link, useSearchParams } from 'react-router-dom'
+import { useLocation, useSearchParams } from 'react-router-dom'
 import { Book, bookCategory } from '../../../interfaces/Book'
 import { BookCard } from './BookCard'
-import { FavoritesContext } from '../../../contexts/FavoritesContext'
 import { CategoryItem } from './CategoryItem'
 import { scrollToTop } from '../../shared/other/scrollToTop'
 import { TypeFilter } from './TypeFilter'
 export const BooksPage = () => {
-    const { setFavorites } = useContext(FavoritesContext)
     const [searchParams, setSearchParams] = useSearchParams();
     const [books, setBooks] = useState<Book[]>([])
     const [totalBooks, setTotalBooks] = useState(null)
@@ -85,34 +83,49 @@ export const BooksPage = () => {
         })
         return queryString
     }
-  
+    
+    function getLocalQuery() {
+        const categoryIds:number[] = [] 
+        if(searchParams.getAll('category_id[]') !== null) {
+            searchParams.getAll('category_id[]').forEach((el) => {
+                categoryIds.push(Number(el))
+            })
+            setCheckedCategoryIds(categoryIds)
+        }else {
+            return
+        }
+    }
     
     useEffect(() => {
         scrollToTop()
-        axios.get(bookApiURL+ `?page=${page}&discount=&discount_id=&serie_id=&type[]=${bookTypePaper}&type[]=${bookTypeAudio}&block=&best=&year=&author=1&${generateCategoryURL(setMultipleCategory(checkedCategoryIds))}`)
-            .then((res: any) => {
-                setTotalBooks(res.data.total)
-                if (res.status === 200 && res.statusText === 'OK') {
-                    if(res.data.data.length > 0 && res.data.last_page != null) {
-                        setBooks(res.data.data)
-                        setLastPage(res.data.last_page);
+            setTimeout(() => {
+                axios.get(bookApiURL+ `?page=${page}&discount=&discount_id=&serie_id=&type[]=${bookTypePaper}&type[]=${bookTypeAudio}&block=&best=&year=&author=1&${generateCategoryURL(setMultipleCategory(checkedCategoryIds))}`)
+                .then((res: any) => {
+                    setTotalBooks(res.data.total)
+                    if (res.status === 200 && res.statusText === 'OK') {
+                        if(res.data.data.length > 0) {
+                            setBooks(res.data.data)
+                            setLastPage(res.data.last_page);
+                        }
+                        else {
+                            setTimeout(() => {
+                                console.log('something wrong');
+                            }, 1000)
+
+                        }
                     }
-                    else {
-                        setTimeout(() => {
-                            console.log('something wrong');
-                        }, 1000)
-                        
-                    }
-                }
-            })
-            .catch((err) => console.log(err))
-            disablePrevBtn(page)
-            disableNextBtn(page)
-            setSearchParams(`page=${page}&discount=&discount_id=&serie_id=&type[]=${bookTypePaper}&type[]=${bookTypeAudio}&block=&best=&year=&author=1&${generateCategoryURL(setMultipleCategory(checkedCategoryIds))}`)
-            setUncheck(false)
+                })
+                .catch((err) => console.log(err))
+            }, 500)
+        disablePrevBtn(page)
+        disableNextBtn(page)
+        setSearchParams(`page=${page}&discount=&discount_id=&serie_id=&type[]=${bookTypePaper}&type[]=${bookTypeAudio}&block=&best=&year=&author=1&${generateCategoryURL(setMultipleCategory(checkedCategoryIds))}`)
+        setUncheck(false)
+        
     }, [page, mainCategory, checkedCategoryIds, bookTypeAudio, bookTypePaper])
 
     useEffect(() => {
+        getLocalQuery()
         axios.get(bookCategoryURL)
             .then((res: any) => {
                 if (res.status === 200 && res.statusText === 'OK') {

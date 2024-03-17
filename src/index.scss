@@ -165,12 +165,10 @@ header {
         @include m-b(1rem);
         @include f-z(1.2rem);
       }
-
       .category {
         @include m-b(.5rem);
         @include f-z(1.1rem);
         @include p-y-x(.3rem, 0);
-
         input[type='checkbox'] {
           margin-right: 10px;
           pointer-events: inherit;
@@ -178,9 +176,11 @@ header {
           height: 20px;
           cursor: pointer;
         }
-
         &:hover {
           cursor: pointer;
+          background-color: #ccc;
+        }
+        &.checked {
           background-color: #ccc;
         }
       }
@@ -197,12 +197,10 @@ header {
         @include m-b(1rem);
         @include f-z(1.2rem);
       }
-
       .type {
         @include m-b(.5rem);
         @include f-z(1.1rem);
         @include p-y-x(.3rem, 0);
-
         input[type='checkbox'] {
           margin-right: 10px;
           pointer-events: inherit;
@@ -210,9 +208,11 @@ header {
           height: 20px;
           cursor: pointer;
         }
-
         &:hover {
           cursor: pointer;
+          background-color: #ccc;
+        }
+        &.checked {
           background-color: #ccc;
         }
       }

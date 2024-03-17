@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 
 
-
 export const CategoryItem = (props:any) => {
     const {
         category, 
@@ -12,8 +11,6 @@ export const CategoryItem = (props:any) => {
         uncheck
     } = props
     const [checked, setChecked] = useState<boolean>(false)
-
-    
     
     // [...prev, category.id]
     function removeOldCategory(oldCategories:number[]) {
@@ -47,13 +44,21 @@ export const CategoryItem = (props:any) => {
             pageReset(1)
         }
     }
+    function activeCheckboxCheck () {
+        checkedCategoryIds.forEach((checkedCategory:number) => {
+            if(checkedCategory === category.id) {
+                setChecked(true)
+            }
+        });
+    }
     useEffect(() => {
         if(uncheck) {
             setChecked(false)
         }
+        activeCheckboxCheck()
     }, [uncheck])
     return (
-        <label className='category' >
+        <label className={`category ${checked ? 'checked' : ''}`} >
             <input 
                 onChange={categoryCheck} 
                 checked={checked}
