@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useContext, useEffect, useState } from 'react'
 import { bookApiURL, bookCategoryURL } from '../../../config/api/books'
 import ReactLoading from "react-loading"
 import axios from 'axios'
@@ -8,8 +8,10 @@ import { BookCard } from './BookCard'
 import { CategoryItem } from './CategoryItem'
 import { scrollToTop } from '../../shared/other/scrollToTop'
 import { TypeFilter } from './TypeFilter'
+import { NavigationContext } from '../../../contexts/NavigationContext'
 export const BooksPage = () => {
     const [searchParams, setSearchParams] = useSearchParams();
+    const {navigationURL, handleNavigationUrl} = useContext(NavigationContext)
     const [books, setBooks] = useState<Book[]>([])
     const [totalBooks, setTotalBooks] = useState(null)
     const [categories, setCategories] = useState<bookCategory[]>([])
@@ -92,38 +94,14 @@ export const BooksPage = () => {
             })
             setCheckedCategoryIds(categoryIds)
         }else {
-            return
+            return categoryIds
         }
     }
+    function generateMainURL() {
+        const url = bookApiURL+ `?page=${page}&discount=&discount_id=&serie_id=&type[]=${bookTypePaper}&type[]=${bookTypeAudio}&block=&best=&year=&author=1${generateCategoryURL(setMultipleCategory(checkedCategoryIds))}` 
+        return url
+    }
     
-    useEffect(() => {
-        scrollToTop()
-            setTimeout(() => {
-                axios.get(bookApiURL+ `?page=${page}&discount=&discount_id=&serie_id=&type[]=${bookTypePaper}&type[]=${bookTypeAudio}&block=&best=&year=&author=1&${generateCategoryURL(setMultipleCategory(checkedCategoryIds))}`)
-                .then((res: any) => {
-                    setTotalBooks(res.data.total)
-                    if (res.status === 200 && res.statusText === 'OK') {
-                        if(res.data.data.length > 0) {
-                            setBooks(res.data.data)
-                            setLastPage(res.data.last_page);
-                        }
-                        else {
-                            setTimeout(() => {
-                                console.log('something wrong');
-                            }, 1000)
-
-                        }
-                    }
-                })
-                .catch((err) => console.log(err))
-            }, 500)
-        disablePrevBtn(page)
-        disableNextBtn(page)
-        setSearchParams(`page=${page}&discount=&discount_id=&serie_id=&type[]=${bookTypePaper}&type[]=${bookTypeAudio}&block=&best=&year=&author=1&${generateCategoryURL(setMultipleCategory(checkedCategoryIds))}`)
-        setUncheck(false)
-        
-    }, [page, mainCategory, checkedCategoryIds, bookTypeAudio, bookTypePaper])
-
     useEffect(() => {
         getLocalQuery()
         axios.get(bookCategoryURL)
@@ -133,7 +111,39 @@ export const BooksPage = () => {
                 }
             })
             .catch((err) => console.log(err))
-    }, [])
+    },[])
+    useEffect(() => {
+        setSearchParams(`page=${page}&discount=&discount_id=&serie_id=&type[]=${bookTypePaper}&type[]=${bookTypeAudio}&block=&best=&year=&author=1&${generateCategoryURL(setMultipleCategory(checkedCategoryIds))}`)
+        handleNavigationUrl(location.pathname + location.search)
+        scrollToTop()
+                if(bookTypeAudio || bookTypePaper || checkedCategoryIds) {
+                axios.get(generateMainURL())
+                .then((res: any) => {
+                    setTotalBooks(res.data.total)
+                    if (res.status === 200 && res.statusText === 'OK') {
+                        if(res.data.data.length > 0) {
+                            setBooks(res.data.data)
+                            setLastPage(res.data.last_page);
+
+                        }
+                        else {
+                            setBooks([])
+                            setLastPage(null)
+                            setTimeout(() => {
+                                console.log('something wrong');
+                            }, 1000)
+
+                        }
+                    }
+                })
+                .catch((err) => console.log(err))
+                }
+        disablePrevBtn(page)
+        disableNextBtn(page)
+        setUncheck(false)
+        
+    }, [page, mainCategory, checkedCategoryIds, bookTypeAudio, bookTypePaper, navigationURL])
+
     return (
         <>
             <main className='container books-page'>

@@ -1,10 +1,11 @@
 import { NavLink } from "react-router-dom";
 import { GoogleAuth } from "../other/GoogleAuth";
-
-
+import { useContext } from "react";
+import { NavigationContext } from "../../../contexts/NavigationContext";
 
 
 export const Header = () => {
+const {navigationURL} = useContext(NavigationContext)
     return (
         <header>
             <div className="container">
@@ -22,7 +23,7 @@ export const Header = () => {
                             <NavLink to={'news'} >news</NavLink>
                         </li>
                         <li>
-                            <NavLink to={'books'} >books</NavLink>
+                            <NavLink to={navigationURL ? navigationURL : 'books'} >books</NavLink>
                         </li>
                         <li>
                             <NavLink to={'food'} >food</NavLink>
