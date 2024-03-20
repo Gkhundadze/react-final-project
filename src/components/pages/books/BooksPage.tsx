@@ -124,7 +124,6 @@ export const BooksPage = () => {
                         if(res.data.data.length > 0) {
                             setBooks(res.data.data)
                             setLastPage(res.data.last_page);
-
                         }
                         else {
                             setBooks([])
@@ -132,7 +131,6 @@ export const BooksPage = () => {
                             setTimeout(() => {
                                 console.log('something wrong');
                             }, 1000)
-
                         }
                     }
                 })
@@ -142,7 +140,7 @@ export const BooksPage = () => {
         disableNextBtn(page)
         setUncheck(false)
         
-    }, [page, mainCategory, checkedCategoryIds, bookTypeAudio, bookTypePaper, navigationURL])
+    }, [page, checkedCategoryIds, bookTypeAudio, bookTypePaper, navigationURL])
 
     return (
         <>

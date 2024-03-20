@@ -233,12 +233,32 @@ header {
 .card-extra-small {
   position: relative;
   max-width: 100px;
+  height: 100%;
   transition-duration: .3s;
   overflow: hidden;
   cursor: pointer;
   .card-image {}
   .card-title {
     @include f-w-b;
+  }
+  .remove-favorite-icon {
+    position: absolute;
+    inset: 0;
+    transition-duration: .2s;
+    svg {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      transition-duration: .3s;
+      fill: #4b4545;
+    }
+    &:hover {
+      background-color: rgba(0, 0, 0, 0.3);
+      svg {
+        fill: rgb(95, 95, 89);
+      }
+    }
   }
 }
 
@@ -279,7 +299,7 @@ header {
   .vaforites-icon {
     position: absolute;
     top: 10px;
-    right: 10px;
+    left: 350px;
     cursor: pointer;
     svg {
       fill: #cccccc;

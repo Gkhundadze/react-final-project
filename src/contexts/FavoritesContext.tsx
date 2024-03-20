@@ -14,19 +14,25 @@ export const FavoritesProvider = ({children}:any) => {
     })
 
     const handleAddData = (value:Book) => {
-        
         if (!favorites.includes(value)) {
             setFavorites([...favorites, value]);
         }
     }
+    const handleRemoveData = (value:Book) => {
+        const filtered = favorites.filter((fav) => fav.id !== value.id )
+        setFavorites(filtered)
+    }
     
     useEffect(() => {
         localStorage.setItem('favorites', JSON.stringify(favorites))
+        console.log(favorites);
+        
     }, [favorites])
 
     return (
         <FavoritesContext.Provider value={{
             handleAddData,
+            handleRemoveData,
             favorites
         }}>
             {children}
