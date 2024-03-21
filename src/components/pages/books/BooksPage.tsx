@@ -9,6 +9,7 @@ import { CategoryItem } from './CategoryItem'
 import { scrollToTop } from '../../shared/other/scrollToTop'
 import { TypeFilter } from './TypeFilter'
 import { NavigationContext } from '../../../contexts/NavigationContext'
+import { PriceFilter } from './PriceFilter'
 export const BooksPage = () => {
     const [searchParams, setSearchParams] = useSearchParams();
     const {navigationURL, handleNavigationUrl} = useContext(NavigationContext)
@@ -146,7 +147,7 @@ export const BooksPage = () => {
             <main className='container books-page'>
                 <aside>
                     <div className="category-wrapper">
-                        <h4>კატეგორიები</h4>
+                        <h4>კატეგორიის მიხედვით</h4>
                         {categories.map((singleCat) => {
                             return ( 
                                 <CategoryItem 
@@ -162,7 +163,7 @@ export const BooksPage = () => {
                         }
                     </div>
                     <div className="type-wrapper">
-                        <h4>ტიპები</h4>
+                        <h4>ტიპის მიხედვით</h4>
                         <TypeFilter 
                             bookType={bookTypePaper}
                             setBookType={setBookTypePaper}
@@ -174,6 +175,13 @@ export const BooksPage = () => {
                             setBookType={setBookTypeAudio}
                             name='audio'
                             uncheck={uncheck}
+                        />
+                    </div>
+                    <div className="price-filter">
+                        <h4>ფასის მიხედვით</h4>
+                        <PriceFilter 
+                            Books={books}
+                            setBooks={setBooks}
                         />
                     </div>
                     <div className="reset-filters">

@@ -218,6 +218,21 @@ header {
       }
       
     }
+    .price-filter {
+      display: flex;
+      flex-direction: column;
+      h4 {
+        text-align: center;
+        @include f-w-b;
+        @include m-b(1rem);
+        @include f-z(1.2rem);
+      }
+      label {
+
+        input {
+        }
+      }
+    }
     .reset-filters {
       text-align: center;
       button {
