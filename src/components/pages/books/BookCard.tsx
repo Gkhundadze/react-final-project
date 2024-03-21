@@ -3,7 +3,7 @@ import { imgErrorHandler } from "../../shared/other/brokenImageHandler";
 import { useContext, useEffect, useState } from "react";
 import { FavoritesContext } from "../../../contexts/FavoritesContext";
 import { Book } from "../../../interfaces/Book";
-
+import brokenImage from '../../../assets/images/broken-image.gif'
 
 
 
@@ -22,7 +22,7 @@ export const BookCard = (props: any) => {
         return findArrayElementById(favorites, id) ? 'active' : 'not'
         
     }
-  
+    
     if (clickable) {
         return (
             <div className={`card-${cardSize} ${specialClass ? specialClass : ''}`}>
@@ -31,7 +31,7 @@ export const BookCard = (props: any) => {
             >
                 <img 
                     className="card-image" 
-                    src={bookData.min_picture ? bookData.min_picture : bookData.legacy_img} 
+                    src={bookData.min_picture ? bookData.min_picture || bookData.legacy_img : brokenImage} 
                     alt={bookData.name} 
                     onError={imgErrorHandler}
                 />
@@ -86,7 +86,7 @@ export const BookCard = (props: any) => {
                 <img 
                     className="card-image" 
                     onError={imgErrorHandler}
-                    src={bookData.legacy_img ? bookData.legacy_img : bookData.min_picture}
+                    src={bookData.min_picture ? bookData.min_picture || bookData.legacy_img : brokenImage}
                 />
                 <h3 className="card-title">{bookData.name}</h3>
                 <div 
@@ -120,7 +120,7 @@ export const BookCard = (props: any) => {
                 <img 
                     className="card-image" 
                     onError={imgErrorHandler}
-                    src={bookData.legacy_img ? bookData.legacy_img : bookData.min_picture}
+                    src={bookData.min_picture ? bookData.min_picture || bookData.legacy_img : brokenImage}
                 />
                 <h3 className="card-title">{bookData.name}</h3>
                 <p>წელი {bookData.year}</p>

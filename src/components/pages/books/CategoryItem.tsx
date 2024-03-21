@@ -3,8 +3,7 @@ import { useEffect, useState } from "react";
 
 export const CategoryItem = (props:any) => {
     const {
-        category, 
-        setMainCategory, 
+        category,
         pageReset, 
         setCheckedCategoryIds, 
         checkedCategoryIds,
@@ -33,14 +32,12 @@ export const CategoryItem = (props:any) => {
     function categoryCheck() {
         if(checked) {
             setChecked(false)
-            setMainCategory('')
             pageReset(1)
             setCheckedCategoryIds(removeOldCategory(checkedCategoryIds))
         }
         else {
             setCheckedCategoryIds((prev:any) => [... new Set([...prev, category.id])])
             setChecked(true)
-            setMainCategory(category.id)
             pageReset(1)
         }
     }

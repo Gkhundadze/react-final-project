@@ -19,7 +19,6 @@ export const BooksPage = () => {
     const [lastPage, setLastPage] = useState(null)
     const [disablePrev, setDisablePrev] = useState(false)
     const [disableNext, setDisableNext] = useState(false)
-    const [mainCategory, setMainCategory] = useState<number | string>('')
     const [checkedCategoryIds, setCheckedCategoryIds] = useState<number[]>([])
     const [bookTypePaper, setBookTypePaper] = useState('')
     const [bookTypeAudio, setBookTypeAudio] = useState('')
@@ -28,7 +27,6 @@ export const BooksPage = () => {
     const bookPerPage = 24
 
     function resetAllFilters() {
-        setMainCategory('')
         setCheckedCategoryIds([])
         setBookTypePaper('')
         setBookTypeAudio('')
@@ -112,6 +110,7 @@ export const BooksPage = () => {
             })
             .catch((err) => console.log(err))
     },[])
+
     useEffect(() => {
         setSearchParams(`page=${page}&discount=&discount_id=&serie_id=&type[]=${bookTypePaper}&type[]=${bookTypeAudio}&block=&best=&year=&author=1&${generateCategoryURL(setMultipleCategory(checkedCategoryIds))}`)
         handleNavigationUrl(location.pathname + location.search)
@@ -153,7 +152,6 @@ export const BooksPage = () => {
                                 <CategoryItem 
                                     key={singleCat.id} 
                                     category={singleCat} 
-                                    setMainCategory={setMainCategory}
                                     pageReset={setPage}
                                     setCheckedCategoryIds={setCheckedCategoryIds}
                                     checkedCategoryIds={checkedCategoryIds}
