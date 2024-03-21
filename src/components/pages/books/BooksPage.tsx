@@ -13,7 +13,7 @@ export const BooksPage = () => {
     const [searchParams, setSearchParams] = useSearchParams();
     const {navigationURL, handleNavigationUrl} = useContext(NavigationContext)
     const [books, setBooks] = useState<Book[]>([])
-    const [totalBooks, setTotalBooks] = useState(null)
+    const [totalBooks, setTotalBooks] = useState(0)
     const [categories, setCategories] = useState<bookCategory[]>([])
     const [page, setPage] = useState<number>(checkPage)
     const [lastPage, setLastPage] = useState(null)
@@ -215,7 +215,6 @@ export const BooksPage = () => {
                 <button disabled={disableNext} onClick={nextPage}>next page</button>
             </div>
             </> : null
-
             }
         </>
     )
