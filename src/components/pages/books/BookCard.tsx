@@ -60,7 +60,7 @@ export const BookCard = (props: any) => {
                 : null
             }
             <div 
-                className={`vaforites-icon ${checkActiveCard(bookData.id)}`}
+                className={`favorites-icon ${checkActiveCard(bookData.id)}`}
                 onClick={(e) => {
                     
                     if(e.currentTarget.classList.contains('not')) {
@@ -127,7 +127,7 @@ export const BookCard = (props: any) => {
                 <p>კატეგორია : {bookData.category?.name}</p>
                 {bookData.description ? <p>{bookData.description}</p> : <p> წიგნის აღწერა ვერ მოიძებნა</p> }
                 <div 
-                className={`vaforites-icon ${checkActiveCard(bookData.id)}`}
+                className={`favorites-icon ${checkActiveCard(bookData.id)}`}
                 onClick={(e) => {
                     if(e.currentTarget.classList.contains('not')) {
                         handleAddData(bookData)

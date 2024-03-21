@@ -267,7 +267,7 @@ header {
   max-width: 200px;
   .card-image {}
   .card-title {}
-  .vaforites-icon {
+  .favorites-icon {
     position: absolute;
     top: 10px;
     right: 10px;
@@ -296,10 +296,10 @@ header {
   width: 400px;
   .card-image {}
   .card-title {}
-  .vaforites-icon {
+  .favorites-icon {
     position: absolute;
     top: 10px;
-    left: 350px;
+    right: 10px;
     cursor: pointer;
     svg {
       fill: #cccccc;
@@ -320,6 +320,9 @@ header {
   }
   &.detailed {
     width: 100%;
+    .favorites-icon {
+      left: 340px;
+    }
   }
   &.promo {}
 }
@@ -329,7 +332,7 @@ header {
   width: 600px;
   .card-image {}
   .card-title {}
-  .vaforites-icon {
+  .favorites-icon {
     position: absolute;
     top: 10px;
     right: 10px;
