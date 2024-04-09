@@ -12,7 +12,7 @@ const {navigationURL} = useContext(NavigationContext)
                 <nav>
                     <div className="logo">
                         <NavLink to={'/'}>
-                            <img src="https://geolab.hola.ge/wp-content/uploads/2023/10/geolab-ლოგო.png" alt="geolab logo" />
+                            <img src="https://geolab.edu.ge/wp-content/uploads/2023/10/geolab-ლოგო.png" alt="geolab logo" />
                         </NavLink>
                     </div>
                     <ul>
