@@ -23,6 +23,9 @@ export const BooksPage = () => {
     const [checkedCategoryIds, setCheckedCategoryIds] = useState<number[]>([])
     const [bookTypePaper, setBookTypePaper] = useState('')
     const [bookTypeAudio, setBookTypeAudio] = useState('')
+    const [priceFrom, setPriceFrom] = useState<number>(0)
+    const [priceTo, setPriceTo] = useState<number>(200)
+
     const [uncheck, setUncheck] = useState<boolean>(false)
     let location = useLocation()
     const bookPerPage = 24
@@ -97,7 +100,7 @@ export const BooksPage = () => {
         }
     }
     function generateMainURL() {
-        const url = bookApiURL+ `?page=${page}&discount=&discount_id=&serie_id=&type[]=${bookTypePaper}&type[]=${bookTypeAudio}&block=&best=&year=&author=1${generateCategoryURL(setMultipleCategory(checkedCategoryIds))}` 
+        const url = bookApiURL+ `?page=${page}&discount=&discount_id=&serie_id=&type[]=${bookTypePaper}&type[]=${bookTypeAudio}&block=&best=&year=&author=1${generateCategoryURL(setMultipleCategory(checkedCategoryIds))}&price_from=${priceFrom}&price_to=${priceTo}` 
         return url
     }
     
@@ -140,7 +143,7 @@ export const BooksPage = () => {
         disableNextBtn(page)
         setUncheck(false)
         
-    }, [page, checkedCategoryIds, bookTypeAudio, bookTypePaper, navigationURL])
+    }, [page, checkedCategoryIds, bookTypeAudio, bookTypePaper, navigationURL, priceFrom, priceTo])
 
     return (
         <>
@@ -179,10 +182,20 @@ export const BooksPage = () => {
                     </div>
                     <div className="price-filter">
                         <h4>ფასის მიხედვით</h4>
-                        <PriceFilter 
+                        <input type="number" value={priceFrom} 
+                            onChange={(e) => {
+                                console.log(e.target.value);
+                                setPriceFrom(Number(e.target.value))
+                        }}/>
+                        <input type="number" value={priceTo} 
+                            onChange={(e) => {
+                                console.log(e.target.value);
+                                setPriceTo(Number(e.target.value))
+                        }}/>
+                        {/* <PriceFilter 
                             Books={books}
                             setBooks={setBooks}
-                        />
+                        /> */}
                     </div>
                     <div className="reset-filters">
                         <button
