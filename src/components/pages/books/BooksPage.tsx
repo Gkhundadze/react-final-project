@@ -2,6 +2,8 @@ import { useContext, useEffect, useState } from 'react'
 import { bookApiURL, bookCategoryURL } from '../../../config/api/books'
 import ReactLoading from "react-loading"
 import axios from 'axios'
+import Box from '@mui/material/Box';
+import Slider from '@mui/material/Slider';
 import { useLocation, useSearchParams } from 'react-router-dom'
 import { Book, bookCategory } from '../../../interfaces/Book'
 import { BookCard } from './BookCard'
@@ -23,8 +25,8 @@ export const BooksPage = () => {
     const [checkedCategoryIds, setCheckedCategoryIds] = useState<number[]>([])
     const [bookTypePaper, setBookTypePaper] = useState('')
     const [bookTypeAudio, setBookTypeAudio] = useState('')
-    const [priceFrom, setPriceFrom] = useState<number>(0)
-    const [priceTo, setPriceTo] = useState<number>(200)
+    const [prices, setPrices] = useState([2,20]); 
+
 
     const [uncheck, setUncheck] = useState<boolean>(false)
     let location = useLocation()
@@ -100,10 +102,13 @@ export const BooksPage = () => {
         }
     }
     function generateMainURL() {
-        const url = bookApiURL+ `?page=${page}&discount=&discount_id=&serie_id=&type[]=${bookTypePaper}&type[]=${bookTypeAudio}&block=&best=&year=&author=1${generateCategoryURL(setMultipleCategory(checkedCategoryIds))}&price_from=${priceFrom}&price_to=${priceTo}` 
+        const url = bookApiURL+ `?page=${page}&discount=&discount_id=&serie_id=&type[]=${bookTypePaper}&type[]=${bookTypeAudio}&block=&best=&year=&author=1${generateCategoryURL(setMultipleCategory(checkedCategoryIds))}&price_from=${prices[0]}&price_to=${prices[1]}` 
         return url
     }
-    
+    // Changing State when volume increases/decreases 
+    const handleChange = (event: Event, newPrices: number | number[]) => {
+        setPrices(newPrices as number[]);
+    };
     useEffect(() => {
         getLocalQuery()
         axios.get(bookCategoryURL)
@@ -116,34 +121,34 @@ export const BooksPage = () => {
     },[])
 
     useEffect(() => {
-        setSearchParams(`page=${page}&discount=&discount_id=&serie_id=&type[]=${bookTypePaper}&type[]=${bookTypeAudio}&block=&best=&year=&author=1&${generateCategoryURL(setMultipleCategory(checkedCategoryIds))}`)
+        setSearchParams(`page=${page}&discount=&discount_id=&serie_id=&type[]=${bookTypePaper}&type[]=${bookTypeAudio}&block=&best=&year=&author=1&${generateCategoryURL(setMultipleCategory(checkedCategoryIds))}&price_from=${prices[0]}&price_to=${prices[1]}`)
         handleNavigationUrl(location.pathname + location.search)
-        scrollToTop()
+        // scrollToTop()
                 if(bookTypeAudio || bookTypePaper || checkedCategoryIds) {
-                axios.get(generateMainURL())
-                .then((res: any) => {
-                    setTotalBooks(res.data.total)
-                    if (res.status === 200 && res.statusText === 'OK') {
-                        if(res.data.data.length > 0) {
-                            setBooks(res.data.data)
-                            setLastPage(res.data.last_page);
+                    axios.get(generateMainURL())
+                    .then((res: any) => {
+                        setTotalBooks(res.data.total)
+                        if (res.status === 200 && res.statusText === 'OK') {
+                            if(res.data.data.length > 0) {
+                                setBooks(res.data.data)
+                                setLastPage(res.data.last_page);
+                            }
+                            else {
+                                setBooks([])
+                                setLastPage(null)
+                                setTimeout(() => {
+                                    console.log('something wrong');
+                                }, 1000)
+                            }
                         }
-                        else {
-                            setBooks([])
-                            setLastPage(null)
-                            setTimeout(() => {
-                                console.log('something wrong');
-                            }, 1000)
-                        }
-                    }
-                })
-                .catch((err) => console.log(err))
+                    })
+                    .catch((err) => console.log(err))
                 }
         disablePrevBtn(page)
         disableNextBtn(page)
         setUncheck(false)
         
-    }, [page, checkedCategoryIds, bookTypeAudio, bookTypePaper, navigationURL, priceFrom, priceTo])
+    }, [page, checkedCategoryIds, bookTypeAudio, bookTypePaper, navigationURL, prices])
 
     return (
         <>
@@ -182,16 +187,25 @@ export const BooksPage = () => {
                     </div>
                     <div className="price-filter">
                         <h4>ფასის მიხედვით</h4>
-                        <input type="number" value={priceFrom} 
-                            onChange={(e) => {
-                                console.log(e.target.value);
-                                setPriceFrom(Number(e.target.value))
-                        }}/>
-                        <input type="number" value={priceTo} 
-                            onChange={(e) => {
-                                console.log(e.target.value);
-                                setPriceTo(Number(e.target.value))
-                        }}/>
+                        
+                        <Slider 
+                            value={prices} 
+                            onChange={handleChange} 
+                            valueLabelDisplay="auto"
+                        /> 
+                        {/* <form onSubmit>
+                            <input type="number" value={priceFrom} 
+                                onChange={(e) => {
+                                    console.log(e.target.value);
+                                    setPriceFrom(Number(e.target.value))
+                            }}/>
+                            <input type="number" value={priceTo} 
+                                onChange={(e) => {
+                                    console.log(e.target.value);
+                                    setPriceTo(Number(e.target.value))
+                            }}/>
+                        </form> */}
+                        
                         {/* <PriceFilter 
                             Books={books}
                             setBooks={setBooks}
