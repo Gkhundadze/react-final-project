@@ -12,6 +12,7 @@ import { scrollToTop } from '../../shared/other/scrollToTop'
 import { TypeFilter } from './TypeFilter'
 import { NavigationContext } from '../../../contexts/NavigationContext'
 import { PriceFilter } from './PriceFilter'
+import { debounce } from '@mui/material';
 export const BooksPage = () => {
     const [searchParams, setSearchParams] = useSearchParams();
     const {navigationURL, handleNavigationUrl} = useContext(NavigationContext)
@@ -25,7 +26,7 @@ export const BooksPage = () => {
     const [checkedCategoryIds, setCheckedCategoryIds] = useState<number[]>([])
     const [bookTypePaper, setBookTypePaper] = useState('')
     const [bookTypeAudio, setBookTypeAudio] = useState('')
-    const [prices, setPrices] = useState([2,20]); 
+    const [prices, setPrices] = useState([0,20]); 
 
 
     const [uncheck, setUncheck] = useState<boolean>(false)
@@ -105,10 +106,11 @@ export const BooksPage = () => {
         const url = bookApiURL+ `?page=${page}&discount=&discount_id=&serie_id=&type[]=${bookTypePaper}&type[]=${bookTypeAudio}&block=&best=&year=&author=1${generateCategoryURL(setMultipleCategory(checkedCategoryIds))}&price_from=${prices[0]}&price_to=${prices[1]}` 
         return url
     }
-    // Changing State when volume increases/decreases 
-    const handleChange = (event: Event, newPrices: number | number[]) => {
+
+    const handlePriceChange = debounce((_event: Event, newPrices: number | number[]) => {
         setPrices(newPrices as number[]);
-    };
+        }, 1000);
+
     useEffect(() => {
         getLocalQuery()
         axios.get(bookCategoryURL)
@@ -190,7 +192,7 @@ export const BooksPage = () => {
                         
                         <Slider 
                             value={prices} 
-                            onChange={handleChange} 
+                            onChange={handlePriceChange} 
                             valueLabelDisplay="auto"
                         /> 
                         {/* <form onSubmit>

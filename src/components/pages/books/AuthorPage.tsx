@@ -23,7 +23,7 @@ export const AuthorPage = () => {
         const pathname = location.pathname
         const tempId = currentBookId
         const newPath = pathname.slice(0, 7) + tempId + '?authorId=' + author?.id
-        
+        console.log(newPath)
         return newPath
     }
 

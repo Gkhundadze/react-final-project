@@ -12,7 +12,7 @@ import brokenImage from '../../../assets/images/broken-image.gif'
 export const BookCard = (props: any) => {
     const { bookData, cardSize, clickable, specialClass, path } = props
     const { handleAddData, handleRemoveData, favorites } = useContext(FavoritesContext)
-
+    console.log(path)
     function findArrayElementById(array:Book[], id:number) {
         return array.find((element:Book) => {
           return element.id === id;
