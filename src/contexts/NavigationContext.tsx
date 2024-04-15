@@ -8,6 +8,8 @@ export const NavigationProvider = ({children}:any) => {
     function handleNavigationUrl(urlString:string):void {
         if(urlString.length > 0) {
             setNavigationURL(urlString)
+            console.log('navigation change');
+            
         }
         else {
             return

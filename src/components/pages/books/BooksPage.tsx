@@ -26,7 +26,8 @@ export const BooksPage = () => {
     const [checkedCategoryIds, setCheckedCategoryIds] = useState<number[]>([])
     const [bookTypePaper, setBookTypePaper] = useState('')
     const [bookTypeAudio, setBookTypeAudio] = useState('')
-    const [prices, setPrices] = useState([0,20]); 
+    const [startPrice, setStartPrice] = useState<number>(1)
+    const [endPrice, setEndPrice] = useState<number>(300)
 
 
     const [uncheck, setUncheck] = useState<boolean>(false)
@@ -103,13 +104,24 @@ export const BooksPage = () => {
         }
     }
     function generateMainURL() {
-        const url = bookApiURL+ `?page=${page}&discount=&discount_id=&serie_id=&type[]=${bookTypePaper}&type[]=${bookTypeAudio}&block=&best=&year=&author=1${generateCategoryURL(setMultipleCategory(checkedCategoryIds))}&price_from=${prices[0]}&price_to=${prices[1]}` 
+        const url = bookApiURL+ `?page=${page}&type[]=${bookTypePaper}&type[]=${bookTypeAudio}&author=1${generateCategoryURL(setMultipleCategory(checkedCategoryIds))}&price_from=${startPrice}&price_to=${endPrice}` 
         return url
     }
+    
+    // const handlePriceChange = debounce((_event: Event, newPrices: number | number[]) => {
+    //     setPrices(newPrices as number[]);
+    //     console.log('price change');
+        
+    //     }, 1000);
+    const handleStartPrice = (_event) => {
+        const value = _event.target.value.replace(/\D/g, "");
+        setStartPrice(value)
+    }
+    const handleEndPrice = (_event) => {
+        const value = _event.target.value.replace(/\D/g, "");
+        setEndPrice(value)
 
-    const handlePriceChange = debounce((_event: Event, newPrices: number | number[]) => {
-        setPrices(newPrices as number[]);
-        }, 1000);
+    }
 
     useEffect(() => {
         getLocalQuery()
@@ -122,8 +134,9 @@ export const BooksPage = () => {
             .catch((err) => console.log(err))
     },[])
 
+
     useEffect(() => {
-        setSearchParams(`page=${page}&discount=&discount_id=&serie_id=&type[]=${bookTypePaper}&type[]=${bookTypeAudio}&block=&best=&year=&author=1&${generateCategoryURL(setMultipleCategory(checkedCategoryIds))}&price_from=${prices[0]}&price_to=${prices[1]}`)
+        setSearchParams(`page=${page}&type[]=${bookTypePaper}&type[]=${bookTypeAudio}&author=1&${generateCategoryURL(setMultipleCategory(checkedCategoryIds))}&price_from=${startPrice}&price_to=${endPrice}`)
         handleNavigationUrl(location.pathname + location.search)
         // scrollToTop()
                 if(bookTypeAudio || bookTypePaper || checkedCategoryIds) {
@@ -150,7 +163,7 @@ export const BooksPage = () => {
         disableNextBtn(page)
         setUncheck(false)
         
-    }, [page, checkedCategoryIds, bookTypeAudio, bookTypePaper, navigationURL, prices])
+    }, [page, checkedCategoryIds, bookTypeAudio, bookTypePaper,  startPrice, endPrice, navigationURL])
 
     return (
         <>
@@ -189,12 +202,22 @@ export const BooksPage = () => {
                     </div>
                     <div className="price-filter">
                         <h4>ფასის მიხედვით</h4>
-                        
-                        <Slider 
-                            value={prices} 
-                            onChange={handlePriceChange} 
-                            valueLabelDisplay="auto"
-                        /> 
+                        <input 
+                            value={startPrice} 
+                            type="text" 
+                            pattern="[0-9]"
+                            maxLength={3}
+                            onChange={handleStartPrice} 
+
+                        />
+                        <input 
+                            value={endPrice} 
+                            type="text" 
+                            pattern="[0-9]" 
+                            maxLength={4}
+                            onChange={handleEndPrice} 
+
+                        />
                         {/* <form onSubmit>
                             <input type="number" value={priceFrom} 
                                 onChange={(e) => {
