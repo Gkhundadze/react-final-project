@@ -22,6 +22,7 @@ export const BookCard = (props: any) => {
         
     }
     
+    
     if (clickable) {
         return (
             <div className={`card-${cardSize} ${specialClass ? specialClass : ''}`}>
@@ -44,17 +45,19 @@ export const BookCard = (props: any) => {
                     <div className="stock-count">
                         დარჩენილია : <span className='count'>{bookData.isInStock}</span> ცალი
                     </div>
-                    <div className="translator">
+                    {/* <div className="translator">
                         თარგმანი :   <span className="person">
                             {bookData?.translator?.fullname ? bookData.translator.fullname : 'ინფორმაცია ვერ მოიძებნა'}
                         </span>
-                    </div>
+                    </div> */}
+                    <div className="card-footer">
                     <Link 
                         to={path}
-                        className='details-page'
+                        className='details-page card-button'
                     >
                         დეტალურად
                     </Link>
+                    </div>
                 </>
                 : null
             }

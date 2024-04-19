@@ -81,7 +81,6 @@ export const FoodPage = () => {
     const requestSuggestions = () => {
         axios.get(suggestionsUrl + '?number=5&query=' + searchKeyword + '&apiKey=' + foodApiKey)
             .then((res) => {
-                console.log(res.data);
                 setSuggestions(res.data)
                 setRecipeMessage('no recipe for that keyword')
             })

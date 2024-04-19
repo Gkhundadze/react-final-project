@@ -9,7 +9,7 @@ import { FavoritesProvider } from './contexts/FavoritesContext'
 import {NavigationProvider} from './contexts/NavigationContext'
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
-  <React.StrictMode>
+  // <React.StrictMode>
   <FavoritesProvider>
     <NavigationProvider>
     <GoogleOAuthProvider clientId={GoogleClientID}>
@@ -17,5 +17,5 @@ ReactDOM.createRoot(document.getElementById('root')!).render(
     </GoogleOAuthProvider>
     </NavigationProvider>
     </FavoritesProvider>
-  </React.StrictMode>,
+  // </React.StrictMode>,
 )

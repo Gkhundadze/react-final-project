@@ -1,21 +1,18 @@
-import { createContext, useState } from "react"
+import { createContext, useEffect, useState } from "react"
 
 export const NavigationContext = createContext<any>('')
 
 export const NavigationProvider = ({children}:any) => {
     const [navigationURL, setNavigationURL] = useState<string>('')
 
-    function handleNavigationUrl(urlString:string):void {
+    function handleNavigationUrl(urlString:string) {
         if(urlString.length > 0) {
             setNavigationURL(urlString)
-            console.log('navigation change');
-            
         }
         else {
             return
         }
     }
-
     return (
         <NavigationContext.Provider value={
                 {

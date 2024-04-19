@@ -15,7 +15,7 @@ import { PriceFilter } from './PriceFilter'
 import { debounce } from '@mui/material';
 export const BooksPage = () => {
     const [searchParams, setSearchParams] = useSearchParams();
-    const {navigationURL, handleNavigationUrl} = useContext(NavigationContext)
+    const { navigationURL, handleNavigationUrl } = useContext(NavigationContext)
     const [books, setBooks] = useState<Book[]>([])
     const [totalBooks, setTotalBooks] = useState(0)
     const [categories, setCategories] = useState<bookCategory[]>([])
@@ -40,17 +40,19 @@ export const BooksPage = () => {
         setBookTypeAudio('')
         setPage(1)
         setUncheck(true)
+        setStartPrice(1)
+        setEndPrice(300)
     }
 
 
     function checkPage() {
-        if(searchParams.get('page') != null) {
+        if (searchParams.get('page') != null) {
             return Number(searchParams.get('page'))
         }
         return 1
     }
-    
-    
+
+
 
     function nextPage() {
         setPage(page + 1)
@@ -59,24 +61,24 @@ export const BooksPage = () => {
     function previousPage() {
         setPage(page - 1)
     }
-    function disablePrevBtn(pageNumber:any) {
-        if(pageNumber === 1) {
+    function disablePrevBtn(pageNumber: any) {
+        if (pageNumber === 1) {
             setDisablePrev(true)
-        }else {
+        } else {
             setDisablePrev(false)
         }
     }
-    function disableNextBtn(pageNumber:any) {
-        if(pageNumber === lastPage) {
+    function disableNextBtn(pageNumber: any) {
+        if (pageNumber === lastPage) {
             setDisableNext(true)
-        }else {
+        } else {
             setDisableNext(false)
         }
     }
-    function setMultipleCategory(catIds:any[]) {
-        const categories:string[] = []
-        if(catIds.length > 0) {
-                catIds.forEach(categoryId => {
+    function setMultipleCategory(catIds: any[]) {
+        const categories: string[] = []
+        if (catIds.length > 0) {
+            catIds.forEach(categoryId => {
                 categories.push(`&category_id[]=${categoryId}`)
             });
             return categories
@@ -84,45 +86,45 @@ export const BooksPage = () => {
         return []
     }
 
-    function generateCategoryURL(queriesArr:string[]) {
+    function generateCategoryURL(queriesArr: string[]) {
         let queryString = ''
         queriesArr.forEach((query) => {
             queryString += query
         })
         return queryString
     }
-    
+
     function getLocalQuery() {
-        const categoryIds:number[] = [] 
-        if(searchParams.getAll('category_id[]') !== null) {
-            searchParams.getAll('category_id[]').forEach((el) => {
+        const categoryIds: number[] = []
+        const temp = searchParams.getAll('category_id[]')
+        const _priceFrom = searchParams.get('price_from')
+        const _priceTo = searchParams.get('price_to')
+        if (_priceFrom && _priceTo) {
+            setStartPrice(Number(_priceFrom))
+            setEndPrice(Number(_priceTo))
+        }
+        if (temp !== null) {
+            temp.forEach((el) => {
                 categoryIds.push(Number(el))
             })
             setCheckedCategoryIds(categoryIds)
-        }else {
-            return categoryIds
         }
     }
     function generateMainURL() {
-        const url = bookApiURL+ `?page=${page}&type[]=${bookTypePaper}&type[]=${bookTypeAudio}&author=1${generateCategoryURL(setMultipleCategory(checkedCategoryIds))}&price_from=${startPrice}&price_to=${endPrice}` 
-        return url
+        setSearchParams(`page=${page}&type[]=${bookTypePaper}&type[]=${bookTypeAudio}&author=1&${generateCategoryURL(setMultipleCategory(checkedCategoryIds))}&price_from=${startPrice}&price_to=${endPrice}`);
+
+        return bookApiURL + `?page=${page}&type[]=${bookTypePaper}&type[]=${bookTypeAudio}&author=1${generateCategoryURL(setMultipleCategory(checkedCategoryIds))}&price_from=${startPrice}&price_to=${endPrice}`
     }
-    
-    // const handlePriceChange = debounce((_event: Event, newPrices: number | number[]) => {
-    //     setPrices(newPrices as number[]);
-    //     console.log('price change');
-        
-    //     }, 1000);
-    const handleStartPrice = (_event) => {
+
+    const handleStartPrice = (_event: any) => {
         const value = _event.target.value.replace(/\D/g, "");
         setStartPrice(value)
     }
-    const handleEndPrice = (_event) => {
+    const handleEndPrice = (_event: any) => {
         const value = _event.target.value.replace(/\D/g, "");
         setEndPrice(value)
 
     }
-
     useEffect(() => {
         getLocalQuery()
         axios.get(bookCategoryURL)
@@ -132,39 +134,35 @@ export const BooksPage = () => {
                 }
             })
             .catch((err) => console.log(err))
-    },[])
-
-
+    }, [])
     useEffect(() => {
-        setSearchParams(`page=${page}&type[]=${bookTypePaper}&type[]=${bookTypeAudio}&author=1&${generateCategoryURL(setMultipleCategory(checkedCategoryIds))}&price_from=${startPrice}&price_to=${endPrice}`)
-        handleNavigationUrl(location.pathname + location.search)
-        // scrollToTop()
-                if(bookTypeAudio || bookTypePaper || checkedCategoryIds) {
-                    axios.get(generateMainURL())
-                    .then((res: any) => {
-                        setTotalBooks(res.data.total)
-                        if (res.status === 200 && res.statusText === 'OK') {
-                            if(res.data.data.length > 0) {
-                                setBooks(res.data.data)
-                                setLastPage(res.data.last_page);
-                            }
-                            else {
-                                setBooks([])
-                                setLastPage(null)
-                                setTimeout(() => {
-                                    console.log('something wrong');
-                                }, 1000)
-                            }
-                        }
-                    })
-                    .catch((err) => console.log(err))
+        const fetchData = async () => {
+            await handleNavigationUrl(location.pathname + location.search);
+            try {
+                const mainURL = generateMainURL();
+                const response = await axios.get(mainURL);
+                setTotalBooks(response.data.total);
+                if (response.status === 200 && response.statusText === 'OK') {
+                    if (response.data.data.length > 0) {
+                        setBooks(response.data.data);
+                        setLastPage(response.data.last_page);
+                    } else {
+                        setBooks([]);
+                        setLastPage(null);
+                        setTimeout(() => {
+                            console.log('something wrong');
+                        }, 1000);
+                    }
                 }
-        disablePrevBtn(page)
-        disableNextBtn(page)
-        setUncheck(false)
-        
-    }, [page, checkedCategoryIds, bookTypeAudio, bookTypePaper,  startPrice, endPrice, navigationURL])
-
+                disablePrevBtn(page);
+                disableNextBtn(page);
+                setUncheck(false);
+            } catch (error) {
+                console.error('Error fetching data:', error);
+            }
+        }
+        fetchData()
+    }, [page, checkedCategoryIds, bookTypeAudio, bookTypePaper, startPrice, endPrice])
     return (
         <>
             <main className='container books-page'>
@@ -172,10 +170,10 @@ export const BooksPage = () => {
                     <div className="category-wrapper">
                         <h4>კატეგორიის მიხედვით</h4>
                         {categories.map((singleCat) => {
-                            return ( 
-                                <CategoryItem 
-                                    key={singleCat.id} 
-                                    category={singleCat} 
+                            return (
+                                <CategoryItem
+                                    key={singleCat.id}
+                                    category={singleCat}
                                     pageReset={setPage}
                                     setCheckedCategoryIds={setCheckedCategoryIds}
                                     checkedCategoryIds={checkedCategoryIds}
@@ -187,13 +185,13 @@ export const BooksPage = () => {
                     </div>
                     <div className="type-wrapper">
                         <h4>ტიპის მიხედვით</h4>
-                        <TypeFilter 
+                        <TypeFilter
                             bookType={bookTypePaper}
                             setBookType={setBookTypePaper}
                             name='paper'
                             uncheck={uncheck}
                         />
-                        <TypeFilter 
+                        <TypeFilter
                             bookType={bookTypeAudio}
                             setBookType={setBookTypeAudio}
                             name='audio'
@@ -202,39 +200,20 @@ export const BooksPage = () => {
                     </div>
                     <div className="price-filter">
                         <h4>ფასის მიხედვით</h4>
-                        <input 
-                            value={startPrice} 
-                            type="text" 
+                        <input
+                            value={startPrice}
+                            type="text"
                             pattern="[0-9]"
                             maxLength={3}
-                            onChange={handleStartPrice} 
-
+                            onChange={handleStartPrice}
                         />
-                        <input 
-                            value={endPrice} 
-                            type="text" 
-                            pattern="[0-9]" 
+                        <input
+                            value={endPrice}
+                            type="text"
+                            pattern="[0-9]"
                             maxLength={4}
-                            onChange={handleEndPrice} 
-
+                            onChange={handleEndPrice}
                         />
-                        {/* <form onSubmit>
-                            <input type="number" value={priceFrom} 
-                                onChange={(e) => {
-                                    console.log(e.target.value);
-                                    setPriceFrom(Number(e.target.value))
-                            }}/>
-                            <input type="number" value={priceTo} 
-                                onChange={(e) => {
-                                    console.log(e.target.value);
-                                    setPriceTo(Number(e.target.value))
-                            }}/>
-                        </form> */}
-                        
-                        {/* <PriceFilter 
-                            Books={books}
-                            setBooks={setBooks}
-                        /> */}
                     </div>
                     <div className="reset-filters">
                         <button
@@ -245,35 +224,35 @@ export const BooksPage = () => {
                     </div>
                 </aside>
                 <section className='books'>
-                {books.length > 0 ? <div className="book-quantity">
-                    <span>მოიძებნა <b>{totalBooks}</b> წიგნი</span>
-                </div>
-                    : null
-                }
-                <div className="books-container">
-                    {books.length > 0 ? books.map((book: Book) => {
-                        return (
-                        <BookCard
-                            key={book.id}
-                            bookData={book}
-                            cardSize={'regular'}
-                            specialClass='promo'
-                            path={location.pathname + '/' + book.id+ `?authorId=${book.author_id}`}
-                            clickable={true}
-                        />
-                        )
-                    })
-                        : <ReactLoading type={'balls'} color={'#2D9596'} height={667} width={375} />
+                    {books.length > 0 ? <div className="book-quantity">
+                        <span>მოიძებნა {totalBooks} წიგნი</span>
+                    </div>
+                        : null
                     }
-                </div>
+                    <div className="books-container">
+                        {books.length > 0 ? books.map((book: Book) => {
+                            return (
+                                <BookCard
+                                    key={book.id}
+                                    bookData={book}
+                                    cardSize={'regular'}
+                                    specialClass='promo'
+                                    path={location.pathname + '/' + book.id + `?authorId=${book.author_id}`}
+                                    clickable={true}
+                                />
+                            )
+                        })
+                            : <ReactLoading type={'balls'} color={'#2D9596'} height={667} width={375} />
+                        }
+                    </div>
                 </section>
             </main>
             {totalBooks > bookPerPage ? <>
                 <div className="pagination">
-                <button disabled={disablePrev} onClick={previousPage}>previous page</button>
-                <span>current page :{page}</span>
-                <button disabled={disableNext} onClick={nextPage}>next page</button>
-            </div>
+                    <button disabled={disablePrev} onClick={previousPage}>previous page</button>
+                    <span>current page :{page}</span>
+                    <button disabled={disableNext} onClick={nextPage}>next page</button>
+                </div>
             </> : null
             }
         </>

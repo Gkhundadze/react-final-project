@@ -76,9 +76,9 @@ export const AuthorPage = () => {
                                 <SwiperSlide key={authorsBook.id}>
                                     <BookCard 
                                         bookData={authorsBook}
-                                        formURL={formURL}
                                         clickable={true}
                                         cardSize={'small'}
+                                        path={formURL(authorsBook.id)}
                                     />
                                 </SwiperSlide>
                             )
