@@ -5,6 +5,9 @@
 @mixin flex {
     display: flex;
 }
+@mixin flex-column {
+    flex-direction: column;
+}
 @mixin justify-center {
     justify-content: center;
 }
@@ -28,6 +31,9 @@
 }
 @mixin gap($value) {
     gap: $value;
+}
+@mixin wrap {
+    flex-wrap: wrap;
 }
 
 @mixin block {
@@ -53,10 +59,42 @@
 @mixin f-w-b {
     font-weight: 600;
 }
+@mixin f-z($value) {
+    font-size: $value;
+}
+
+// text
+@mixin text-center {
+    text-align: center;
+}
+@mixin text-left {
+    text-align: left;
+}
+@mixin text-right {
+    text-align: right;
+}
+@mixin uppercase {
+    text-transform: uppercase;
+}
+@mixin lowercase {
+    text-transform: uppercase;
+}
+@mixin capitalize {
+    text-transform: capitalize;
+}
+@mixin text-d-u {
+    text-decoration: underline;
+}
 
 // margins
 @mixin m-reset {
     margin: 0;
+}
+@mixin m($value) {
+    margin: $value;
+}
+@mixin m-y ($value) {
+    margin: $value 0;
 }
 @mixin m-t($value) {
     margin-top: $value;
@@ -70,6 +108,10 @@
 @mixin m-l($value) {
     margin-left: $value;
 }
+@mixin m-y($value) {
+    margin-top: $value ;
+    margin-bottom: $value ;
+}
 
 // paddings
 @mixin p-reset {
@@ -77,6 +119,9 @@
 }
 @mixin p ($value) {
     padding: $value;
+}
+@mixin p-y-x ($y, $x) {
+    padding: $y $x;
 }
 @mixin p-t($value) {
     padding-top: $value;
@@ -89,4 +134,29 @@
 }
 @mixin p-l($value) {
     padding-left: $value;
+}
+
+// borders
+
+@mixin solid-b($value) {
+    border-bottom: 1px solid $value;
+}
+
+
+@mixin scrollbar($color) {
+    &::-webkit-scrollbar {
+        width: 10px;
+    }
+    
+    &::-webkit-scrollbar-track {
+        border-radius: 8px;
+        background-color: #e7e7e7;
+        border: 1px solid #cacaca;
+    }
+    
+    &::-webkit-scrollbar-thumb {
+        border-radius: 8px;
+        background-color: $color;
+    }
+    
 }

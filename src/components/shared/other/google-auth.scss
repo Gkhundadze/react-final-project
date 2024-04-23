@@ -1,0 +1,40 @@
+
+
+
+
+.auth-wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    img {
+        width: 2rem;
+        border-radius: 50%;
+        cursor: pointer;
+    }
+    .log-in {
+        padding: 5px 7px;
+        cursor: pointer;
+    }
+    .user-settings {
+        display: none;
+        position: absolute;
+        top: 100%;
+        right: 0;
+        z-index: 100;
+        flex-direction: column;
+        gap: 1rem;
+        margin-top: 10px;
+        padding: 20px;
+        background-color: rgba(0, 0, 0, .5);
+        color: white;
+        text-align: center;
+        .log-out {
+            padding: 0.5rem 1rem;
+            cursor: pointer;
+        }
+        &.expanded {
+            display: flex;
+        }
+    }
+}
