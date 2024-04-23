@@ -1,52 +1,29 @@
-import { useEffect, useState } from "react"
-import { Book } from "../../../interfaces/Book"
-
-
-
 export const PriceFilter = (props:any) => {
-    const maxPrice = 200
-    const {Books, setBooks, uncheck} = props
-    const [priceFrom, setPriceFrom] = useState<number>(0)
-    const [priceTo, setPriceTo] = useState<number>(maxPrice)
-
-    function priceFromHandler(e:any) {
-        setPriceFrom(Number(e.target.value))
-    }
-
-    function priceToHandler(e:any) {
-        setPriceTo(Number(e.target.value))
-    }
-
-    function filterData() {
-        const filtered = Books.filter((book:Book) => {
-            return book.variations[0].price >= priceFrom && book.variations[0].price <= priceTo
-        })
-        setFilteredData(filtered)
-    }
-
-    function setFilteredData(data:Book[]) {
-        if(data.length > 0) {
-            setBooks(data)
-        }
-    }
-    
-    useEffect(() => {
-        if(uncheck) {
-            setPriceFrom(0)
-            setPriceTo(maxPrice)
-        }
-        filterData()
-    }, [priceFrom, priceTo, uncheck])
+    const {startPrice, handleStartPrice, endPrice, handleEndPrice}  = props
+   
     return (
         <>
             <label>
-                from
-                <input type="text" value={priceFrom} onChange={priceFromHandler} />
+                <input
+                    value={startPrice}
+                    type="text"
+                    pattern="[0-9]"
+                    maxLength={3}
+                    onChange={handleStartPrice}
+                />
+                ₾ დან
             </label>
             <label>
-                to
-                <input type="text" value={priceTo} onChange={priceToHandler}  />
+                <input
+                    value={endPrice}
+                    type="text"
+                    pattern="[0-9]"
+                    maxLength={4}
+                    onChange={handleEndPrice}
+                />
+                ₾ მდე
             </label>
+            
         </>
     )
 }

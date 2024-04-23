@@ -121,8 +121,12 @@ export const BooksPage = () => {
         setEndPrice(value)
 
     }
+    function generateMainURL() {
+            return bookApiURL + `?page=${page}&type[]=${bookTypePaper}&type[]=${bookTypeAudio}&author=1${generateCategoryURL(setMultipleCategory(checkedCategoryIds))}&price_from=${startPrice}&price_to=${endPrice}`
+        }
     useEffect(() => {
         getLocalQuery()
+
         axios.get(bookCategoryURL)
             .then((res: any) => {
                 if (res.status === 200 && res.statusText === 'OK') {
@@ -132,15 +136,13 @@ export const BooksPage = () => {
             .catch((err) => console.log(err))
     }, [])
     useEffect(() => {
-        console.log('change');
+
         
-        function generateMainURL() {
-            setSearchParams(`page=${page}&type[]=${bookTypePaper}&type[]=${bookTypeAudio}&author=1&${generateCategoryURL(setMultipleCategory(checkedCategoryIds))}&price_from=${startPrice}&price_to=${endPrice}`);
-    
-            return bookApiURL + `?page=${page}&type[]=${bookTypePaper}&type[]=${bookTypeAudio}&author=1${generateCategoryURL(setMultipleCategory(checkedCategoryIds))}&price_from=${startPrice}&price_to=${endPrice}`
-        }
         const fetchData = async () => {
-            await handleNavigationUrl(location.pathname + location.search);
+
+            setSearchParams(`page=${page}&type[]=${bookTypePaper}&type[]=${bookTypeAudio}&author=1&${generateCategoryURL(setMultipleCategory(checkedCategoryIds))}&price_from=${startPrice}&price_to=${endPrice}`);
+            
+            handleNavigationUrl(location.pathname + location.search);
             try {
                 const mainURL = generateMainURL();
                 const response = await axios.get(mainURL);
@@ -203,19 +205,11 @@ export const BooksPage = () => {
                     </div>
                     <div className="price-filter">
                         <h4>ფასის მიხედვით</h4>
-                        <input
-                            value={startPrice}
-                            type="text"
-                            pattern="[0-9]"
-                            maxLength={3}
-                            onChange={handleStartPrice}
-                        />
-                        <input
-                            value={endPrice}
-                            type="text"
-                            pattern="[0-9]"
-                            maxLength={4}
-                            onChange={handleEndPrice}
+                        <PriceFilter 
+                            startPrice={startPrice}
+                            endPrice={endPrice}
+                            handleStartPrice={handleStartPrice}
+                            handleEndPrice={handleEndPrice}
                         />
                     </div>
                     <div className="reset-filters">

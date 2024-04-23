@@ -1,6 +1,6 @@
 import { NavLink } from "react-router-dom";
 import { GoogleAuth } from "../other/GoogleAuth";
-import { useContext } from "react";
+import { useContext, useEffect } from "react";
 import { NavigationContext } from "../../../contexts/NavigationContext";
 
 
