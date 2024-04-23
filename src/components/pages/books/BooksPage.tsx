@@ -110,11 +110,7 @@ export const BooksPage = () => {
             setCheckedCategoryIds(categoryIds)
         }
     }
-    function generateMainURL() {
-        setSearchParams(`page=${page}&type[]=${bookTypePaper}&type[]=${bookTypeAudio}&author=1&${generateCategoryURL(setMultipleCategory(checkedCategoryIds))}&price_from=${startPrice}&price_to=${endPrice}`);
-
-        return bookApiURL + `?page=${page}&type[]=${bookTypePaper}&type[]=${bookTypeAudio}&author=1${generateCategoryURL(setMultipleCategory(checkedCategoryIds))}&price_from=${startPrice}&price_to=${endPrice}`
-    }
+    
 
     const handleStartPrice = (_event: any) => {
         const value = _event.target.value.replace(/\D/g, "");
@@ -136,6 +132,13 @@ export const BooksPage = () => {
             .catch((err) => console.log(err))
     }, [])
     useEffect(() => {
+        console.log('change');
+        
+        function generateMainURL() {
+            setSearchParams(`page=${page}&type[]=${bookTypePaper}&type[]=${bookTypeAudio}&author=1&${generateCategoryURL(setMultipleCategory(checkedCategoryIds))}&price_from=${startPrice}&price_to=${endPrice}`);
+    
+            return bookApiURL + `?page=${page}&type[]=${bookTypePaper}&type[]=${bookTypeAudio}&author=1${generateCategoryURL(setMultipleCategory(checkedCategoryIds))}&price_from=${startPrice}&price_to=${endPrice}`
+        }
         const fetchData = async () => {
             await handleNavigationUrl(location.pathname + location.search);
             try {

@@ -12,7 +12,14 @@
   font-size: 16px;
   font-weight: normal;
 }
-
+@font-face {
+  font-family: BPG-ghalo;
+  src: url(assets/fonts/bpg_glaho.ttf);
+}
+@font-face {
+  font-family: BPG-nino-mtavruli;
+  src: url(assets/fonts/bpg_nino_mtavruli_bold.ttf);
+}
 ul {
   list-style: none;
 }
@@ -26,8 +33,6 @@ a {
 img {
   width: 100%;
 }
-
-
 
 // temporary classes
 .container {
@@ -53,7 +58,26 @@ img {
     @include uppercase;
   }
 }
+body {
+  @include scrollbar($primary);
+  font-family: BPG-ghalo;
 
+}
+
+// body::-webkit-scrollbar {
+//   width: 10px;
+// }
+
+// body::-webkit-scrollbar-track {
+//   border-radius: 8px;
+//   background-color: #e7e7e7;
+//   border: 1px solid #cacaca;
+// }
+
+// body::-webkit-scrollbar-thumb {
+//   border-radius: 8px;
+//   background-color: #d55959;
+// }
 // header
 header {
   @include p(1rem);
@@ -158,9 +182,10 @@ header {
       @include flex;
       @include flex-column;
       @include gap(.4rem);
-
+      @include scrollbar($primary);
       h4 {
         text-align: center;
+        font-family: BPG-nino-mtavruli;
         @include f-w-b;
         @include m-b(1rem);
         @include f-z(1.2rem);
@@ -192,6 +217,7 @@ header {
       @include gap(.4rem);
       @include p(1rem);
       h4 {
+        font-family: BPG-nino-mtavruli;
         text-align: center;
         @include f-w-b;
         @include m-b(1rem);
@@ -226,6 +252,7 @@ header {
         @include f-w-b;
         @include m-b(1rem);
         @include f-z(1.2rem);
+        font-family: BPG-nino-mtavruli;
       }
       label {
 
@@ -235,17 +262,28 @@ header {
     }
     .reset-filters {
       text-align: center;
+      @include p-y-x(.5rem, 0 );
       button {
         @include p(.5rem);
         cursor: pointer;
+        border: 2px solid $warning;
+        transition-duration: .3s;
+        font-weight: bold;
+        letter-spacing: 1px;
+        &:hover {
+          background-color: darken($warning, 10%);
+          color: white;
+        }
       }
     }
   }
   .books {
     flex-grow: 1;
     .book-quantity {
+      @include p-t(1rem);
       span {
         @include f-z(1.3rem);
+        font-family: BPG-nino-mtavruli;
       }
     }
   }
