@@ -23,12 +23,12 @@ export const BooksPage = () => {
     const [lastPage, setLastPage] = useState(null)
     const [disablePrev, setDisablePrev] = useState(false)
     const [disableNext, setDisableNext] = useState(false)
-    const [checkedCategoryIds, setCheckedCategoryIds] = useState<number[]>([])
-    const [bookTypePaper, setBookTypePaper] = useState('')
-    const [bookTypeAudio, setBookTypeAudio] = useState('')
-    const [startPrice, setStartPrice] = useState<number>(1)
-    const [endPrice, setEndPrice] = useState<number>(300)
-
+    const [checkedCategoryIds, setCheckedCategoryIds] = useState<number[]>(getCatIds())
+    const [bookTypePaper, setBookTypePaper] = useState(getBookTypePaper())
+    const [bookTypeAudio, setBookTypeAudio] = useState(getBookTypeAudio())
+    const [startPrice, setStartPrice] = useState<number>(getStartPrice())
+    const [endPrice, setEndPrice] = useState<number>(getEndPrice())
+    const [expanded, setExpanded] = useState<boolean>(false)
 
     const [uncheck, setUncheck] = useState<boolean>(false)
     let location = useLocation()
@@ -94,20 +94,51 @@ export const BooksPage = () => {
         return queryString
     }
 
-    function getLocalQuery() {
-        const categoryIds: number[] = []
-        const temp = searchParams.getAll('category_id[]')
-        const _priceFrom = searchParams.get('price_from')
-        const _priceTo = searchParams.get('price_to')
-        if (_priceFrom && _priceTo) {
-            setStartPrice(Number(_priceFrom))
-            setEndPrice(Number(_priceTo))
+    function getBookTypeAudio() {
+        const [audio] = searchParams.getAll('type[]').filter((type) => type === 'audio')
+        if(audio !== (null || undefined)) {
+            return audio
+        }else {
+            return ''
         }
-        if (temp !== null) {
-            temp.forEach((el) => {
+    }
+
+    function getBookTypePaper() {
+        const [paper] = searchParams.getAll('type[]').filter((type) => type === 'paper')
+        if(paper !== (null || undefined)) {
+            return paper
+        }else {
+            return ''
+        }
+    }
+
+    function getStartPrice() {
+        const _startPrice = searchParams.get('price_from')
+        if(_startPrice !== null) {
+            return Number(_startPrice)
+        }else {
+            return 1
+        }
+    }
+    function getEndPrice() {
+        const _endPrice = searchParams.get('price_to')
+        if(_endPrice !== null) {
+            return Number(_endPrice)
+        }else {
+            return 300
+        }
+    }
+
+    function getCatIds() {
+        const categoryIds: number[] = []
+        const tempIds = searchParams.getAll('category_id[]')
+        if(tempIds !== null) {
+            tempIds.forEach((el) => {
                 categoryIds.push(Number(el))
             })
-            setCheckedCategoryIds(categoryIds)
+            return categoryIds
+        }else {
+            return []
         }
     }
     
@@ -125,8 +156,6 @@ export const BooksPage = () => {
             return bookApiURL + `?page=${page}&type[]=${bookTypePaper}&type[]=${bookTypeAudio}&author=1${generateCategoryURL(setMultipleCategory(checkedCategoryIds))}&price_from=${startPrice}&price_to=${endPrice}`
         }
     useEffect(() => {
-        getLocalQuery()
-
         axios.get(bookCategoryURL)
             .then((res: any) => {
                 if (res.status === 200 && res.statusText === 'OK') {
@@ -137,11 +166,10 @@ export const BooksPage = () => {
     }, [])
     useEffect(() => {
 
-        
         const fetchData = async () => {
 
             setSearchParams(`page=${page}&type[]=${bookTypePaper}&type[]=${bookTypeAudio}&author=1&${generateCategoryURL(setMultipleCategory(checkedCategoryIds))}&price_from=${startPrice}&price_to=${endPrice}`);
-            
+
             handleNavigationUrl(location.pathname + location.search);
             try {
                 const mainURL = generateMainURL();
@@ -171,9 +199,9 @@ export const BooksPage = () => {
     return (
         <>
             <main className='container books-page'>
-                <aside>
+                <aside className={`${expanded ? 'hide' : ''}`}>
                     <div className="category-wrapper">
-                        <h4>კატეგორიის მიხედვით</h4>
+                        <h4>კატეგორიები</h4>
                         {categories.map((singleCat) => {
                             return (
                                 <CategoryItem
@@ -218,6 +246,11 @@ export const BooksPage = () => {
                         >
                             გაწმენდა
                         </button>
+                    </div>
+                    <div onClick={() => {
+                        setExpanded(!expanded)
+                    }} className={`arrow ${expanded ? '' : 'rotated'}`}>
+                        <svg width={50} xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="m18.707 12.707-3 3a1 1 0 0 1-1.414-1.414L15.586 13H6a1 1 0 0 1 0-2h9.586l-1.293-1.293a1 1 0 0 1 1.414-1.414l3 3a1 1 0 0 1 0 1.414z" data-name="Right"/></svg>
                     </div>
                 </aside>
                 <section className='books'>

@@ -173,7 +173,8 @@ header {
     @include p-b(.5rem);
     @include p-r(.5rem);
     @include p-t(.5rem);
-
+    transition-duration: .7s;
+    position: relative;
     .category-wrapper {
       box-shadow: rgba(50, 50, 93, 0.25) 0px 30px 60px -12px inset, rgba(0, 0, 0, 0.3) 0px 18px 36px -18px inset;
       max-height: 500px;
@@ -290,6 +291,23 @@ header {
           color: white;
         }
       }
+    }
+    .arrow {
+      position: absolute;
+      top: 50%;
+      right: -35px;
+      transform: translateY(-50%);
+      transition-duration: .3s;
+      cursor: pointer;
+      svg {
+        fill: $primary;
+      }
+      &.rotated {
+        transform: rotate(180deg) translateY(25px);
+      }
+    }
+    &.hide {
+      @include m-l(-430px);
     }
   }
   .books {
