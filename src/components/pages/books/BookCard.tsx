@@ -34,6 +34,7 @@ export const BookCard = (props: any) => {
                     src={bookData.min_picture ? bookData.min_picture || bookData.legacy_img : brokenImage} 
                     alt={bookData.name} 
                     onError={imgErrorHandler}
+                    loading="lazy"
                 />
             </Link>
             <h3 className="card-title">{bookData.name}</h3>

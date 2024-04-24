@@ -61,7 +61,6 @@ img {
 body {
   @include scrollbar($primary);
   font-family: BPG-ghalo;
-
 }
 
 // body::-webkit-scrollbar {
@@ -406,6 +405,7 @@ header {
   .card-image {
     display: block;
     width: 100%;
+    min-height: 543px;
   }
   .card-title {
     @include f-z(1.5rem);
@@ -459,7 +459,9 @@ header {
       left: 340px;
     }
   }
-  &.promo {}
+  &.promo {
+    
+  }
 }
 
 .card-large {
