@@ -12,7 +12,7 @@ export const FavoritesProvider = ({children}:any) => {
         }
         return []
     })
-
+    
     const handleAddData = (value:Book) => {
         if (!favorites.includes(value)) {
             setFavorites([...favorites, value]);
@@ -25,6 +25,7 @@ export const FavoritesProvider = ({children}:any) => {
     
     useEffect(() => {
         localStorage.setItem('favorites', JSON.stringify(favorites))
+        
     }, [favorites])
 
     return (

@@ -109,7 +109,18 @@ header {
             @include f-z(20px);
             @include uppercase;
             color: $primary;
-
+            .favorites-button {
+              position: relative;
+              @include p(.5rem);
+              svg {
+                fill: $primary;
+              }
+              .favorites-count {
+                position: absolute;
+                top: 0;
+                right: 0;
+              }
+            }
             &.active {
               font-weight: bold;
             }
@@ -387,12 +398,12 @@ header {
     &:hover {
       svg {
         transform: scale(1.2);
-        fill: yellow;
+        fill: $primary;
       }
     }
     &.active {
       svg {
-        fill: yellow;
+        fill: $primary;
       }
     }
   }
@@ -440,12 +451,12 @@ header {
     &:hover {
       svg {
         transform: scale(1.2);
-        fill: yellow;
+        fill: $primary;
       }
     }
     &.active {
       svg {
-        fill: yellow;
+        fill: $primary;
       }
     }
   }
@@ -482,12 +493,12 @@ header {
     &:hover {
       svg {
         transform: scale(1.2);
-        fill: yellow;
+        fill: $primary;
       }
     }
     &.active {
       svg {
-        fill: yellow;
+        fill: $primary;
       }
     }
   }
