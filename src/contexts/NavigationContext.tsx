@@ -6,7 +6,6 @@ export const NavigationProvider = ({children}:any) => {
     const [navigationURL, setNavigationURL] = useState<string>('')
 
     function handleNavigationUrl(urlString:string) {
-        
         if(urlString.length > 0) {
             setNavigationURL(urlString)
         }

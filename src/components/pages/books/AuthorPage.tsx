@@ -5,13 +5,12 @@ import { useState, useEffect } from "react";
 import { BookCard } from "./BookCard";
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Navigation } from 'swiper/modules';
-import 'swiper/css/bundle';
+import 'swiper/css/bundl ';
 import { imgErrorHandler } from "../../shared/other/brokenImageHandler";
 import brokenImage from '../../../assets/images/broken-image.gif'
 export const AuthorPage = () => {
     const [author, setAuthor] = useState<Author>()
     const [authorsOtherBooks, setAuthorsOtherBooks] = useState<Book[]>([])
-    const [bookId, setBookId] = useState<number>(0)
     let [searchParams] = useSearchParams();
     const authorApiUrl: string = 'https://api.palitral.ge/api/author/'
     let navigate = useNavigate()
@@ -23,10 +22,8 @@ export const AuthorPage = () => {
         const pathname = location.pathname
         const tempId = currentBookId
         const newPath = pathname.slice(0, 7) + tempId + '?authorId=' + author?.id
-        console.log(newPath)
         return newPath
     }
-
 
     useEffect(() => {
         const authorID = searchParams.get('authorId')
@@ -34,14 +31,11 @@ export const AuthorPage = () => {
             .then((res) => {
                 if (res.status === 200 && res.statusText === 'OK') {
                     setAuthor(res.data)
-                    
                     setAuthorsOtherBooks(res.data.books)  
                 }
             })
             .catch((error) => alert(error.message))
     }, [])
-
-
 
     return (
         <>

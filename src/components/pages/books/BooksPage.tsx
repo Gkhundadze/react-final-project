@@ -2,8 +2,6 @@ import { useContext, useEffect, useState } from 'react'
 import { bookApiURL, bookCategoryURL } from '../../../config/api/books'
 import ReactLoading from "react-loading"
 import axios from 'axios'
-import Box from '@mui/material/Box';
-import Slider from '@mui/material/Slider';
 import { useLocation, useSearchParams } from 'react-router-dom'
 import { Book, bookCategory } from '../../../interfaces/Book'
 import { BookCard } from './BookCard'
@@ -12,10 +10,9 @@ import { scrollToTop } from '../../shared/other/scrollToTop'
 import { TypeFilter } from './TypeFilter'
 import { NavigationContext } from '../../../contexts/NavigationContext'
 import { PriceFilter } from './PriceFilter'
-import { debounce } from '@mui/material';
 export const BooksPage = () => {
     const [searchParams, setSearchParams] = useSearchParams();
-    const { navigationURL, handleNavigationUrl } = useContext(NavigationContext)
+    const {handleNavigationUrl } = useContext(NavigationContext)
     const [books, setBooks] = useState<Book[]>([])
     const [totalBooks, setTotalBooks] = useState(0)
     const [categories, setCategories] = useState<bookCategory[]>([])
@@ -52,8 +49,6 @@ export const BooksPage = () => {
         return 1
     }
 
-
-
     function nextPage() {
         setPage(page + 1)
     }
@@ -61,6 +56,7 @@ export const BooksPage = () => {
     function previousPage() {
         setPage(page - 1)
     }
+
     function disablePrevBtn(pageNumber: any) {
         if (pageNumber === 1) {
             setDisablePrev(true)
@@ -68,6 +64,7 @@ export const BooksPage = () => {
             setDisablePrev(false)
         }
     }
+
     function disableNextBtn(pageNumber: any) {
         if (pageNumber === lastPage) {
             setDisableNext(true)
@@ -75,6 +72,7 @@ export const BooksPage = () => {
             setDisableNext(false)
         }
     }
+
     function setMultipleCategory(catIds: any[]) {
         const categories: string[] = []
         if (catIds.length > 0) {
@@ -142,19 +140,21 @@ export const BooksPage = () => {
         }
     }
     
-
     const handleStartPrice = (_event: any) => {
         const value = _event.target.value.replace(/\D/g, "");
         setStartPrice(value)
     }
+
     const handleEndPrice = (_event: any) => {
         const value = _event.target.value.replace(/\D/g, "");
         setEndPrice(value)
 
     }
+
     function generateMainURL() {
             return bookApiURL + `?page=${page}&type[]=${bookTypePaper}&type[]=${bookTypeAudio}&author=1${generateCategoryURL(setMultipleCategory(checkedCategoryIds))}&price_from=${startPrice}&price_to=${endPrice}`
         }
+
     useEffect(() => {
         axios.get(bookCategoryURL)
             .then((res: any) => {
@@ -164,13 +164,23 @@ export const BooksPage = () => {
             })
             .catch((err) => console.log(err))
     }, [])
+
     useEffect(() => {
-
+        setSearchParams(`page=${page}&type[]=${bookTypePaper}&type[]=${bookTypeAudio}&author=1&${generateCategoryURL(setMultipleCategory(checkedCategoryIds))}&price_from=${startPrice}&price_to=${endPrice}`);
+        // setSearchParams(
+        //     {
+        //         "page": page.toString(),
+        //         "type[]": bookTypePaper || bookTypeAudio,
+        //         "author": generateCategoryURL(setMultipleCategory(checkedCategoryIds)),
+        //         "price_from": startPrice.toString(),
+        //         "price_to": endPrice.toString()
+        //     }
+        // )
+        scrollToTop()
+        handleNavigationUrl(location.pathname + location.search);
+        
         const fetchData = async () => {
-
-            setSearchParams(`page=${page}&type[]=${bookTypePaper}&type[]=${bookTypeAudio}&author=1&${generateCategoryURL(setMultipleCategory(checkedCategoryIds))}&price_from=${startPrice}&price_to=${endPrice}`);
-
-            handleNavigationUrl(location.pathname + location.search);
+            
             try {
                 const mainURL = generateMainURL();
                 const response = await axios.get(mainURL);
