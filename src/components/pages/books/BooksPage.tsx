@@ -152,9 +152,8 @@ export const BooksPage = () => {
     }
 
     function generateMainURL() {
-            return bookApiURL + `?page=${page}&type[]=${bookTypePaper}&type[]=${bookTypeAudio}&author=1${generateCategoryURL(setMultipleCategory(checkedCategoryIds))}&price_from=${startPrice}&price_to=${endPrice}`
-        }
-
+        return bookApiURL + `?page=${page}&type[]=${bookTypePaper}&type[]=${bookTypeAudio}&author=1${generateCategoryURL(setMultipleCategory(checkedCategoryIds))}&price_from=${startPrice}&price_to=${endPrice}`
+    }
     useEffect(() => {
         axios.get(bookCategoryURL)
             .then((res: any) => {
@@ -167,20 +166,10 @@ export const BooksPage = () => {
 
     useEffect(() => {
         setSearchParams(`page=${page}&type[]=${bookTypePaper}&type[]=${bookTypeAudio}&author=1&${generateCategoryURL(setMultipleCategory(checkedCategoryIds))}&price_from=${startPrice}&price_to=${endPrice}`);
-        // setSearchParams(
-        //     {
-        //         "page": page.toString(),
-        //         "type[]": bookTypePaper || bookTypeAudio,
-        //         "author": generateCategoryURL(setMultipleCategory(checkedCategoryIds)),
-        //         "price_from": startPrice.toString(),
-        //         "price_to": endPrice.toString()
-        //     }
-        // )
         scrollToTop()
-        handleNavigationUrl(location.pathname + location.search);
+        handleNavigationUrl(location.pathname + `?page=${page}&type[]=${bookTypePaper}&type[]=${bookTypeAudio}&author=1&${generateCategoryURL(setMultipleCategory(checkedCategoryIds))}&price_from=${startPrice}&price_to=${endPrice}`);
         
         const fetchData = async () => {
-            
             try {
                 const mainURL = generateMainURL();
                 const response = await axios.get(mainURL);

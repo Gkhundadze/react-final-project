@@ -5,7 +5,7 @@ import { useState, useEffect } from "react";
 import { BookCard } from "./BookCard";
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Navigation } from 'swiper/modules';
-import 'swiper/css/bundl ';
+import 'swiper/css/bundle';
 import { imgErrorHandler } from "../../shared/other/brokenImageHandler";
 import brokenImage from '../../../assets/images/broken-image.gif'
 export const AuthorPage = () => {

@@ -9,10 +9,10 @@ export const NavigationProvider = ({children}:any) => {
         if(urlString.length > 0) {
             setNavigationURL(urlString)
         }
-        else {
-            return navigationURL
-        }
     }
+    // useEffect(() => {
+    //     console.log(navigationURL)
+    // }, [navigationURL])
     return (
         <NavigationContext.Provider value={
                 {
