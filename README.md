@@ -1,3 +1,6 @@
+React Final Project
+This is a final project app built with React. It includes several routes such as home, news, books, and food.
+
 Getting Started
 To get started with this project, follow these steps:
 
