@@ -1,30 +1,29 @@
-# React + TypeScript + Vite
+Getting Started
+To get started with this project, follow these steps:
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Clone the repository to your local machine.
+Install dependencies using npm install.
+Start the development server using npm run dev.
+Open http://localhost:3000 to view the app in your browser.
+Available Scripts
+In the project directory, you can run:
 
-Currently, two official plugins are available:
+npm run dev: Runs the app in development mode.
+npm run build: Builds the app for production.
+npm run lint: Lints the code using ESLint.
+npm run preview: Previews the built app locally.
+Dependencies
+This project relies on the following dependencies:
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
-
-## Expanding the ESLint configuration
-
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
-
-- Configure the top-level `parserOptions` property like this:
-
-```js
-export default {
-  // other rules...
-  parserOptions: {
-    ecmaVersion: 'latest',
-    sourceType: 'module',
-    project: ['./tsconfig.json', './tsconfig.node.json'],
-    tsconfigRootDir: __dirname,
-  },
-}
-```
-
-- Replace `plugin:@typescript-eslint/recommended` to `plugin:@typescript-eslint/recommended-type-checked` or `plugin:@typescript-eslint/strict-type-checked`
-- Optionally add `plugin:@typescript-eslint/stylistic-type-checked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and add `plugin:react/recommended` & `plugin:react/jsx-runtime` to the `extends` list
+Axios: Promise-based HTTP client for the browser and Node.js.
+React Router Dom: Declarative routing for React.
+React OAuth Google: Google OAuth integration for React.
+React Loading: Loading spinner component for React.
+Swiper: Modern mobile touch slider.
+Development Dependencies
+TypeScript: Typed superset of JavaScript.
+Vite: Next-generation frontend tooling for React.
+ESLint: JavaScript linter.
+Sass: CSS preprocessor.
+@typescript-eslint: TypeScript support for ESLint.
+@vitejs/plugin-react: Vite plugin for React support.
