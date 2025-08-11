@@ -94,18 +94,18 @@ export const BooksPage = () => {
 
     function getBookTypeAudio() {
         const [audio] = searchParams.getAll('type[]').filter((type) => type === 'audio')
-        if(audio !== (null || undefined)) {
+        if (audio !== null && audio !== undefined) {
             return audio
-        }else {
+        } else {
             return ''
         }
     }
 
     function getBookTypePaper() {
         const [paper] = searchParams.getAll('type[]').filter((type) => type === 'paper')
-        if(paper !== (null || undefined)) {
+        if (paper !== null && paper !== undefined) {
             return paper
-        }else {
+        } else {
             return ''
         }
     }

@@ -6,7 +6,10 @@ import { useOutsideClick } from '../../../hooks/useOutsideClick';
 import { GoogleProfile } from '../../../interfaces/GoogleAuth';
 
 export const GoogleAuth = () => {
-    const [ user, setUser ] = useState(JSON.parse(sessionStorage.getItem('user')));
+    const [ user, setUser ] = useState(() => {
+        const storedUser = sessionStorage.getItem('user');
+        return storedUser ? JSON.parse(storedUser) : null;
+    });
     const [ profile, setProfile ] = useState<GoogleProfile | null>(null);
     const [expanded, setExpanded ] = useState(false)
 
