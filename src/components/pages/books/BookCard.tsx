@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 import { imgErrorHandler } from "../../shared/other/brokenImageHandler";
-import { useContext, useEffect, useState } from "react";
+import { useContext } from "react";
 import { FavoritesContext } from "../../../contexts/FavoritesContext";
 import { Book } from "../../../interfaces/Book";
 import brokenImage from '../../../assets/images/broken-image.gif'
@@ -46,11 +46,6 @@ export const BookCard = (props: any) => {
                     <div className="stock-count">
                         დარჩენილია : <span className='count'>{bookData.isInStock}</span> ცალი
                     </div>
-                    {/* <div className="translator">
-                        თარგმანი :   <span className="person">
-                            {bookData?.translator?.fullname ? bookData.translator.fullname : 'ინფორმაცია ვერ მოიძებნა'}
-                        </span>
-                    </div> */}
                     <div className="card-footer">
                     <Link 
                         to={path}
